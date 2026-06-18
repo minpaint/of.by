@@ -16,6 +16,30 @@
 </script>
 {% endblock %}
 
+{% block extra_head %}
+<style>
+  .sidebar-sticky-banner {
+    position: sticky;
+    top: 16px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    z-index: 1;
+  }
+  .sidebar-sticky-banner img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  @media (max-width: 991px) {
+    /* На планшете/мобильном сайдбар стекается — sticky не нужен */
+    .sidebar-sticky-banner { position: static; top: auto; }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid px-3 py-3">
   <div class="row g-4">
@@ -111,6 +135,18 @@
           {% endfor %}
         </div>
       </div>
+
+      {% if sidebar_banner and sidebar_banner.image %}
+      <div class="sidebar-sticky-banner mt-3">
+        {% if sidebar_banner.url %}
+        <a href="{{ sidebar_banner.url }}" target="_blank" rel="noopener sponsored" title="{{ sidebar_banner.title }}">
+          <img src="{{ sidebar_banner.image.url }}" alt="{{ sidebar_banner.title }}" loading="lazy">
+        </a>
+        {% else %}
+        <img src="{{ sidebar_banner.image.url }}" alt="{{ sidebar_banner.title }}" loading="lazy">
+        {% endif %}
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>

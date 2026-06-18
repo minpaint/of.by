@@ -244,7 +244,20 @@ def header_banner(request):
             .first()
         )
         cache.set(cache_key, banner, BANNER_CACHE_TTL)
+
+    sidebar_cache_key = 'ctx:sidebar_banner'
+    sidebar_banner = cache.get(sidebar_cache_key)
+    if sidebar_banner is None:
+        sidebar_banner = (
+            Banner.objects
+            .filter(placement=Banner.PLACEMENT_SIDEBAR, is_active=True)
+            .order_by('sort_order')
+            .first()
+        )
+        cache.set(sidebar_cache_key, sidebar_banner, BANNER_CACHE_TTL)
+
     return {
         'header_banner': banner,
+        'sidebar_banner': sidebar_banner,
         'current_branding': _get_current_branding(request),
     }

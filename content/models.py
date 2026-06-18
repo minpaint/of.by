@@ -596,9 +596,11 @@ class ContentFeedBlock(models.Model):
 class Banner(models.Model):
     PLACEMENT_HEADER = 'header'
     PLACEMENT_SECTION = 'section'
+    PLACEMENT_SIDEBAR = 'sidebar'
     PLACEMENT_CHOICES = [
         (PLACEMENT_HEADER, 'Шапка сайта (правый блок)'),
         (PLACEMENT_SECTION, 'Блок раздела на главной'),
+        (PLACEMENT_SIDEBAR, 'Сайдбар статьи (sticky)'),
     ]
 
     placement = models.CharField(
@@ -623,7 +625,7 @@ class Banner(models.Model):
         upload_to='uploads/banners/',
         blank=True,
         null=True,
-        help_text='Шапка: рекомендуемый размер 520x80 px. Раздел: 900x100 px.',
+        help_text='Шапка: 520x80 px. Раздел: 900x100 px. Сайдбар статьи: ~680px по ширине (горизонтальный баннер).',
     )
     url = models.CharField('Ссылка (URL)', max_length=500, blank=True)
     is_active = models.BooleanField('Активен', default=True)

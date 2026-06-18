@@ -4,10 +4,19 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import RedirectView, TemplateView
+from django.views.static import serve as serve_static
 from content import views as content_views
 from content.sitemaps import sitemaps
 
-media_urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Отдаём media независимо от DEBUG: панель проксирует напрямую на gunicorn,
+# отдельного nginx для /media/ в этой цепочке нет.
+media_urlpatterns = [
+    re_path(
+        r'^%s(?P<path>.*)$' % settings.MEDIA_URL.lstrip('/'),
+        serve_static,
+        {'document_root': settings.MEDIA_ROOT},
+    ),
+]
 
 urlpatterns = [
     path('adminka', RedirectView.as_view(url='/adminka/', permanent=False)),

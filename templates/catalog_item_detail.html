@@ -8,7 +8,7 @@
 {% block og_type %}product{% endblock %}
 {% block og_title %}{{ item.resolved_seo_title|escapejs }}{% endblock %}
 {% block og_description %}{{ item.resolved_seo_description|escapejs }}{% endblock %}
-{% if item.image %}{% block og_image %}https://of.by{{ item.image.url }}{% endblock %}{% endif %}
+{% block og_image %}{% if item.image %}https://of.by{{ item.image.url }}{% endif %}{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">

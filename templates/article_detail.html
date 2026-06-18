@@ -8,7 +8,7 @@
 {% block og_type %}article{% endblock %}
 {% block og_title %}{{ item.seo_title|default:item.display_title|escapejs }}{% endblock %}
 {% block og_description %}{{ item.seo_description|default:item.display_excerpt|escapejs }}{% endblock %}
-{% if item.image %}{% block og_image %}https://of.by{{ item.image.url }}{% endblock %}{% endif %}
+{% block og_image %}{% if item.image %}https://of.by{{ item.image.url }}{% endif %}{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">

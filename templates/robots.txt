@@ -1,8 +1,21 @@
 User-agent: *
+Allow: /
+
+# Служебные и приватные разделы
 Disallow: /adminka/
-Disallow: /search/
-Disallow: /search
 Disallow: /ckeditor5/
 Disallow: /media/uploads/
 
-Sitemap: https://of.by/sitemap.xml
+# Поиск по сайту (служебные страницы, дубли)
+Disallow: /search
+Disallow: /search/
+Disallow: /*?s=
+Disallow: /*?q=
+
+# Мусорные UTM-параметры — против дублей в индексе
+Disallow: /*?utm_
+
+# Явно разрешаем картинки материалов
+Allow: /media/images/
+
+Sitemap: {{ request.scheme }}://{{ request.get_host }}/sitemap.xml

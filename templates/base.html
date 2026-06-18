@@ -11,6 +11,12 @@
   {# Canonical #}
   <link rel="canonical" href="{% block canonical %}https://of.by{{ request.path }}{% endblock %}">
 
+  {# Favicon #}
+  <link rel="icon" href="{% static 'img/favicon/favicon.ico' %}" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
+  <link rel="apple-touch-icon" href="{% static 'img/favicon/apple-touch-icon.png' %}">
+
   {# Open Graph #}
   <meta property="og:site_name" content="of.by">
   <meta property="og:locale" content="ru_BY">

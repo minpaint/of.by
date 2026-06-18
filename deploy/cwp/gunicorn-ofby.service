@@ -7,13 +7,15 @@ Type=simple
 User=django
 Group=django
 WorkingDirectory=/home/django/webapps/ofby
+# .env даёт SECRET_KEY (нужен settings_prod). Параметры gunicorn заданы явно:
+# systemd НЕ понимает bash-синтаксис ${VAR:-default}, поэтому без переменных.
 EnvironmentFile=/home/django/webapps/ofby/.env
 Environment="DJANGO_SETTINGS_MODULE=config.settings_prod"
 ExecStart=/home/django/webapps/ofby/venv/bin/gunicorn \
-    --workers ${GUNICORN_WORKERS:-4} \
-    --bind ${GUNICORN_BIND:-127.0.0.1:8021} \
-    --timeout ${GUNICORN_TIMEOUT:-120} \
-    --log-level ${GUNICORN_LOG_LEVEL:-info} \
+    --workers 4 \
+    --bind 192.168.37.10:8021 \
+    --timeout 120 \
+    --log-level info \
     --access-logfile /home/django/webapps/ofby/logs/gunicorn.access.log \
     --error-logfile /home/django/webapps/ofby/logs/gunicorn.error.log \
     --pid /home/django/webapps/ofby/run/gunicorn.pid \

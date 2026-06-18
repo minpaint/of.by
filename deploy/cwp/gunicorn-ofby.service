@@ -1,0 +1,25 @@
+[Unit]
+Description=Gunicorn service for of.by
+After=network.target
+
+[Service]
+Type=simple
+User=django
+Group=django
+WorkingDirectory=/home/django/webapps/ofby
+EnvironmentFile=/home/django/webapps/ofby/.env
+Environment="DJANGO_SETTINGS_MODULE=config.settings_prod"
+ExecStart=/home/django/webapps/ofby/venv/bin/gunicorn \
+    --workers ${GUNICORN_WORKERS:-4} \
+    --bind ${GUNICORN_BIND:-127.0.0.1:8021} \
+    --timeout ${GUNICORN_TIMEOUT:-120} \
+    --log-level ${GUNICORN_LOG_LEVEL:-info} \
+    --access-logfile /home/django/webapps/ofby/logs/gunicorn.access.log \
+    --error-logfile /home/django/webapps/ofby/logs/gunicorn.error.log \
+    --pid /home/django/webapps/ofby/run/gunicorn.pid \
+    config.wsgi:application
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

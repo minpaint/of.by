@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.display_title }} — портал of.by{% endblock %}
+{% block meta_description %}{{ category.display_description|default:category.display_title }}{% endblock %}
+
+{% block og_type %}website{% endblock %}
+{% block og_title %}{{ category.display_title }} — портал of.by{% endblock %}
+{% block og_description %}{{ category.display_description|default:category.display_title }}{% endblock %}
+
+{% block canonical %}https://of.by{{ category.get_absolute_url }}{% endblock %}
+
+{% block meta_robots %}{% if section_items_page.number > 1 %}<meta name="robots" content="noindex, follow">{% else %}<meta name="robots" content="index, follow">{% endif %}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"{{ category.display_title|escapejs }}","description":"{{ category.display_description|escapejs }}","url":"https://of.by{{ category.get_absolute_url }}","isPartOf":{"@type":"WebSite","name":"of.by","url":"https://of.by"}}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-3 py-3">
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+      <li class="breadcrumb-item active">{{ category.display_title }}</li>
+    </ol>
+  </nav>
+
+  <div class="section-header section-header--{{ category.color }} mb-2">
+    <span class="section-heading-with-icon">
+      <img src="{{ category.icon_asset_url }}" alt="" class="section-heading-icon">
+      {{ category.display_title }}
+    </span>
+  </div>
+
+  <p class="section-description mb-3">{{ category.display_description }}</p>
+
+  {% if slider_items %}
+  <section class="main-slider-section mb-4">
+    <div class="row g-3">
+      <div class="col-12 col-xl-8">
+        <div id="sectionNewsSlider" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            {% for item in slider_items %}
+            <button
+              type="button"
+              data-bs-target="#sectionNewsSlider"
+              data-bs-slide-to="{{ forloop.counter0 }}"
+              class="{% if forloop.first %}active{% endif %}"
+              {% if forloop.first %}aria-current="true"{% endif %}
+              aria-label="Слайд {{ forloop.counter }}"
+            ></button>
+            {% endfor %}
+          </div>
+
+          <div class="carousel-inner">
+            {% for item in slider_items %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <a href="{{ item.get_absolute_url }}">
+                {% if item.image %}
+                <img src="{{ item.image.url }}" class="slider-img" alt="{{ item.display_title }}">
+                {% else %}
+                <img src="{{ item.fallback_image_url }}" class="slider-img" alt="{{ item.display_title }}">
+                {% endif %}
+
+                <div class="carousel-caption-custom">
+                  {% if item.category %}
+                  <span class="badge badge-cat badge-{{ item.category.color }}">{{ item.category.display_title }}</span>
+                  {% endif %}
+                  <h1 class="slider-title">{{ item.display_title|truncatechars:150 }}</h1>
+                  <p class="slider-excerpt">{{ item.display_excerpt|truncatechars:220 }}</p>
+                  <div class="slider-meta">
+                    <span><i class="bi bi-calendar3"></i> {{ item.published_date|date:"d.m.Y" }}</span>
+                    <span><i class="bi bi-eye"></i> {{ item.views }}</span>
+                    {% if item.category %}
+                    <span><i class="bi bi-folder2-open"></i> {{ item.category.display_title }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#sectionNewsSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#sectionNewsSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-4">
+        <aside class="home-main-sidebar">
+          <div class="section-showcase__rail home-main-sidebar__news">
+            <div class="section-showcase__rail-header">Другие новости</div>
+            <div class="section-showcase__rail-list">
+              {% for item in rail_items %}
+              <a href="{{ item.get_absolute_url }}" class="rail-news">
+                <div class="rail-news__thumb">
+                  {% if item.image %}
+                  <img src="{{ item.image.url }}" alt="{{ item.display_title }}">
+                  {% else %}
+                  <img src="{{ item.fallback_image_url }}" alt="{{ item.display_title }}">
+                  {% endif %}
+                </div>
+                <div class="rail-news__body">
+                  <div class="rail-news__meta">
+                    {% if item.category %}
+                    <span class="badge badge-type">{{ item.category.display_title }}</span>
+                    {% endif %}
+                    <div class="rail-news__date">{{ item.published_date|date:"d.m.Y" }}</div>
+                  </div>
+                  <h4 class="rail-news__title">{{ item.display_title|truncatechars:100 }}</h4>
+                </div>
+              </a>
+              {% empty %}
+              <div class="catalog-list__empty">Пока нет дополнительных материалов.</div>
+              {% endfor %}
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if section_items_page.object_list %}
+  <section class="section-products py-1 mb-4">
+    <div class="section-header section-header--{{ category.color }} mb-3">
+      <span>Все материалы раздела</span>
+    </div>
+    <div class="row g-3 catalog-listing catalog-listing--category">
+      {% for item in section_items_page.object_list %}
+      <div class="col-12 col-xl-6">
+        <article class="catalog-item-card catalog-item-card--horizontal section-content-card">
+          <div class="catalog-item-card__media">
+            <a href="{{ item.get_absolute_url }}" class="catalog-item-card__media-link" aria-label="{{ item.display_title }}">
+              {% if item.image %}
+              <img src="{{ item.image.url }}" alt="{{ item.display_title }}">
+              {% else %}
+              <img src="{{ item.fallback_image_url }}" alt="{{ item.display_title }}">
+              {% endif %}
+            </a>
+          </div>
+          <div class="catalog-item-card__body">
+            <div class="catalog-item-card__meta">
+              {% if item.display_type_badge %}<span class="badge badge-type">{{ item.display_type_badge }}</span>{% endif %}
+              <span class="section-content-card__date">{{ item.published_date|date:"d.m.Y" }}</span>
+            </div>
+            <h2 class="catalog-item-card__title">
+              <a href="{{ item.get_absolute_url }}" class="catalog-item-card__title-link">{{ item.display_title|truncatechars:100 }}</a>
+            </h2>
+            <p class="catalog-item-card__excerpt">{{ item.display_excerpt|truncatechars:180 }}</p>
+            <div class="catalog-item-card__actions section-content-card__actions">
+              <span class="section-content-card__views"><i class="bi bi-eye"></i> {{ item.views }}</span>
+              <a href="{{ item.get_absolute_url }}" class="catalog-item-card__button">Подробнее</a>
+            </div>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if section_items_page.paginator.num_pages > 1 %}
+    <nav class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if section_items_page.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ section_items_page.previous_page_number }}">Назад</a></li>
+        {% endif %}
+        <li class="page-item active"><span class="page-link">{{ section_items_page.number }} / {{ section_items_page.paginator.num_pages }}</span></li>
+        {% if section_items_page.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ section_items_page.next_page_number }}">Вперед</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if subsection_blocks %}
+  <section class="section-subsections mb-4">
+    <div class="row g-4 section-subsections__grid">
+      {% for block in subsection_blocks %}
+      <div class="col-12 col-xl-6 d-flex">
+        <div class="section-subsection-block w-100">
+          <div class="section-header section-header--{{ category.color }} mb-2">
+            <span>{{ block.title }}</span>
+            <a href="{{ block.url }}" class="section-header__link">Все материалы</a>
+          </div>
+
+          <div class="home-news-section__panel">
+            <div class="row g-3">
+              <div class="col-12 col-md-5 col-lg-4">
+                <a href="{{ block.lead.get_absolute_url }}" class="news-card news-card--lead home-news-section__lead">
+                  {% if block.lead.image %}
+                  <img src="{{ block.lead.image.url }}" alt="{{ block.lead.display_title }}" class="news-card__img">
+                  {% else %}
+                  <img src="{{ block.lead.fallback_image_url }}" alt="{{ block.lead.display_title }}" class="news-card__img">
+                  {% endif %}
+                  <div class="news-card__body">
+                    {% if block.lead.display_type_badge %}<span class="badge badge-type">{{ block.lead.display_type_badge }}</span>{% endif %}
+                    <h2 class="news-card__title news-card__title--lead">{{ block.lead.display_title|truncatechars:110 }}</h2>
+                    <p class="news-card__excerpt">{{ block.lead.display_excerpt|truncatechars:150 }}</p>
+                    <div class="news-card__meta">
+                      <span><i class="bi bi-calendar3"></i> {{ block.lead.published_date|date:"d.m.Y" }}</span>
+                      <span><i class="bi bi-eye"></i> {{ block.lead.views }}</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="col-12 col-md-7 col-lg-8">
+                <div class="home-news-section__list">
+                  <div class="home-news-section__list-title">Последние материалы подраздела</div>
+                  <div class="catalog-list catalog-list--compact">
+                    {% for item in block.items %}
+                    <a href="{{ item.get_absolute_url }}" class="catalog-list__item">
+                      {% if item.display_type_badge %}<span class="catalog-list__type">{{ item.display_type_badge }}</span>{% endif %}
+                      <span class="catalog-list__title">{{ item.display_title|truncatechars:130 }}</span>
+                      <span class="catalog-list__meta">{{ item.published_date|date:"d.m.Y" }} — Просмотров: {{ item.views }}</span>
+                    </a>
+                    {% empty %}
+                    <div class="catalog-list__empty">В подразделе пока только один материал.</div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if section_catalog_groups %}
+  <section class="section-catalog-groups mb-4">
+    <div class="row g-4 section-subsections__grid">
+      {% for block in section_catalog_groups %}
+      <div class="col-12 col-xl-6 d-flex">
+        <div class="section-subsection-block w-100">
+          <div class="section-header section-header--{{ category.color }} mb-2">
+            <span>{{ block.title }}</span>
+            <a href="{{ block.url }}" class="section-header__link">Все позиции</a>
+          </div>
+
+          <div class="home-news-section__panel section-catalog-group__panel">
+            <div class="row g-3">
+              <div class="col-12 col-md-5 col-lg-4">
+                <a href="{{ block.lead.get_absolute_url }}" class="news-card news-card--lead home-news-section__lead section-catalog-group__lead">
+                  <img src="{{ block.lead.fallback_image_url }}" alt="{{ block.lead.display_title }}" class="news-card__img section-catalog-group__img">
+                  <div class="news-card__body">
+                    {% if block.lead.category %}
+                    <span class="badge badge-type">{{ block.lead.category.display_title }}</span>
+                    {% endif %}
+                    <h2 class="news-card__title news-card__title--lead">{{ block.lead.display_title|truncatechars:92 }}</h2>
+                    <p class="news-card__excerpt">{{ block.lead.display_excerpt|default:block.lead.category.display_description|truncatechars:140 }}</p>
+                    <div class="news-card__meta">
+                      {% if block.lead.display_price %}
+                      <span><i class="bi bi-tag"></i> {{ block.lead.display_price }} BYN</span>
+                      {% else %}
+                      <span><i class="bi bi-tag"></i> По запросу</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="col-12 col-md-7 col-lg-8">
+                <div class="home-news-section__list">
+                  <div class="home-news-section__list-title">Позиции раздела каталога</div>
+                  <div class="catalog-list catalog-list--compact">
+                    {% for item in block.items %}
+                    <a href="{{ item.get_absolute_url }}" class="catalog-list__item">
+                      <span class="catalog-list__type">{{ item.category.display_title }}</span>
+                      <span class="catalog-list__title">{{ item.display_title|truncatechars:118 }}</span>
+                      <span class="catalog-list__meta">
+                        {% if item.display_price %}
+                        {{ item.display_price }} BYN
+                        {% else %}
+                        По запросу
+                        {% endif %}
+                      </span>
+                    </a>
+                    {% empty %}
+                    <div class="catalog-list__empty">В этом разделе каталога пока только одна основная позиция.</div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if not slider_items and not section_items_page.object_list and not subsection_blocks and not section_catalog_groups %}
+  <div class="empty-block"><i class="bi bi-folder2-open"></i><p>В этом разделе пока нет материалов.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

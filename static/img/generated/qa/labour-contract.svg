@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" fill="none">
+  <rect width="1200" height="720" fill="#EEF2FF"/>
+  <circle cx="300" cy="322" r="168" fill="#4357C8"/>
+  <!-- two sheets of a contract -->
+  <rect x="206" y="246" width="104" height="140" rx="10" fill="#FFFFFF"/>
+  <rect x="290" y="232" width="104" height="140" rx="10" fill="#E8EDFB" stroke="#4357C8" stroke-width="3"/>
+  <line x1="306" y1="258" x2="378" y2="258" stroke="#4357C8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="306" y1="278" x2="378" y2="278" stroke="#6B7CE0" stroke-width="6" stroke-linecap="round"/>
+  <line x1="306" y1="298" x2="358" y2="298" stroke="#6B7CE0" stroke-width="6" stroke-linecap="round"/>
+  <!-- handshake -->
+  <path d="M222 402 L262 422 L296 414 L322 426 L356 408" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- title block -->
+  <rect x="586" y="184" width="360" height="64" rx="18" fill="#4357C8"/>
+  <line x1="610" y1="216" x2="922" y2="216" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <!-- body lines -->
+  <rect x="586" y="286" width="368" height="24" rx="12" fill="#6B7CE0"/>
+  <rect x="586" y="328" width="316" height="24" rx="12" fill="#6B7CE0" opacity=".85"/>
+  <rect x="586" y="370" width="392" height="24" rx="12" fill="#6B7CE0" opacity=".7"/>
+  <rect x="586" y="412" width="248" height="24" rx="12" fill="#6B7CE0" opacity=".55"/>
+  <!-- cta -->
+  <rect x="586" y="478" width="196" height="66" rx="20" fill="#1A4FA0"/>
+</svg>

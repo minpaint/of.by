@@ -1,0 +1,15 @@
+<div class="topbar d-none d-md-block">
+  <div class="container-fluid px-3">
+    <div class="topbar-inner">
+      <div class="topbar-links">
+        {% for link in top_nav_links %}
+        <a href="{{ link.url }}"{% if link.external %} target="_blank" rel="noopener"{% endif %}>{{ link.title }}</a>
+        {% endfor %}
+      </div>
+      <form class="topbar-search" action="{% url 'search' %}" method="get">
+        <input type="text" name="q" placeholder="Поиск по сайту" value="{{ query|default:'' }}">
+        <button type="submit" aria-label="Искать"><i class="bi bi-search"></i></button>
+      </form>
+    </div>
+  </div>
+</div>

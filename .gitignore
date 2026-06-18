@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django
+*.sqlite3
+staticfiles/
+media/
+.env
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Logs
+*.log
+*.err.log
+
+# Node (не нужен на сервере)
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Deploy runtime
+deploy/cwp/.env
+
+# Временные и локальные файлы
+old.sql
+*.corrupt*
+name.zip
+check_urls.py
+temp_investigate.py
+update_data.json
+updates.json
+package.json
+package-lock.json
+banner_bonkarenko.png
+
+# Claude internal
+.claude/

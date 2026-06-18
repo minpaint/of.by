@@ -1,0 +1,22 @@
+{% load i18n admin_urls %}
+{% url opts|admin_urlname:'changelist' as changelist_url %}
+<div class="submit-row d-flex flex-wrap gap-2 align-items-center">
+{% if show_save %}
+<input type="submit" value="{% trans 'Save' %}" class="default btn btn-success" name="_save">
+{% endif %}
+{% if show_save_as_new %}
+<input type="submit" value="{% trans 'Save as new' %}" class="btn btn-info" name="_saveasnew">
+{% endif %}
+{% if show_save_and_add_another %}
+<input type="submit" value="{% trans 'Save and add another' %}" class="btn btn-info" name="_addanother">
+{% endif %}
+{% if show_save_and_continue %}
+<input type="submit" value="{% if can_change %}{% trans 'Save and continue editing' %}{% else %}{% trans 'Save and view' %}{% endif %}" class="btn btn-info" name="_continue">
+{% endif %}
+{% if show_delete_link and original %}
+<a href="{% url opts|admin_urlname:'delete' original.pk|admin_urlquote %}" class="deletelink btn btn-danger">{% trans "Delete" %}</a>
+{% endif %}
+{% if has_view_permission %}
+<a href="{% add_preserved_filters changelist_url %}" class="btn btn-outline-secondary">Отмена</a>
+{% endif %}
+</div>

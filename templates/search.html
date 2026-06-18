@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Поиск{% if query %}: {{ query }}{% endif %} — of.by{% endblock %}
+{% block meta_robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-3 py-3">
+  <h2 class="mb-3">
+    {% if query %}
+    Результаты поиска: «{{ query }}»
+    {% elif content_type %}
+    Материалы типа «{{ content_type_label }}»
+    {% else %}
+    Поиск по сайту
+    {% endif %}
+  </h2>
+
+  <form action="{% url 'search' %}" method="get" class="d-flex flex-column flex-md-row gap-2 mb-3">
+    <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Введите запрос...">
+    <select name="type" class="form-select search-select">
+      <option value="">Все типы материалов</option>
+      {% for type_value, type_label in content_type_links %}
+      <option value="{{ type_value }}" {% if content_type == type_value %}selected{% endif %}>{{ type_label }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> Найти</button>
+  </form>
+
+  {% if query or content_type %}
+    {% if results %}
+    <p class="text-muted mb-3">Найдено: {{ results|length }} материалов</p>
+    <div class="row g-3">
+      {% for item in results %}
+      <div class="col-12 col-md-6 col-xl-4">
+        <a href="{{ item.get_absolute_url }}" class="news-card">
+          {% if item.image %}
+          <img src="{{ item.image.url }}" alt="{{ item.display_title }}" class="news-card__img">
+          {% else %}
+          <img src="{{ item.fallback_image_url }}" alt="{{ item.display_title }}" class="news-card__img">
+          {% endif %}
+          <div class="news-card__body">
+            {% if item.category %}
+            <span class="badge badge-cat badge-{{ item.category.color }}">{{ item.category.display_title }}</span>
+            {% endif %}
+            <h6 class="news-card__title">{{ item.display_title|truncatechars:90 }}</h6>
+            <p class="news-card__excerpt">{{ item.display_excerpt|truncatechars:120 }}</p>
+            <div class="news-card__meta">
+              <span><i class="bi bi-calendar3"></i> {{ item.published_date|date:"d.m.Y" }}</span>
+              <span><i class="bi bi-eye"></i> {{ item.views }}</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-block"><i class="bi bi-search"></i><p>По вашему запросу ничего не найдено.</p></div>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

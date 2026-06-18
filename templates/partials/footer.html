@@ -1,0 +1,46 @@
+{% load static %}
+<footer class="site-footer">
+  <div class="container-fluid px-3">
+    <div class="row g-4 py-4">
+      <div class="col-12 col-md-4">
+        <div class="footer-brand">
+          <div class="footer-brand__head">
+            <img src="{% static 'img/icons/shield.svg' %}" alt="" class="footer-brand__icon">
+            <span class="footer-brand__title">ОХРАНА ТРУДА</span>
+          </div>
+          <p class="footer-brand__text">Портал по охране труда в Беларуси. Более 1&nbsp;200 нормативных документов, статей и практических материалов по 85 разделам.</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-2">
+        <h6 class="footer-heading">Разделы</h6>
+        <ul class="footer-links">
+          {% for cat in categories %}
+          <li><a href="{{ cat.get_absolute_url }}">{{ cat.short_title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="col-6 col-md-2">
+        <h6 class="footer-heading">Материалы</h6>
+        <ul class="footer-links">
+          {% for type_value, type_label in content_type_links %}
+          <li><a href="{% url 'search' %}?type={{ type_value }}">{{ type_label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <h6 class="footer-heading">О портале</h6>
+        <ul class="footer-links">
+          <li>1&nbsp;255 статей и нормативных документов</li>
+          <li>19 видеоматериалов</li>
+          <li>17 анонсов мероприятий</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; {% now "Y" %} of.by</span>
+    </div>
+  </div>
+</footer>

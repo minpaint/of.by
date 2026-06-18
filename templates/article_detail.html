@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ item.seo_title|default:item.display_title }} — of.by{% endblock %}
+{% block meta_description %}{{ item.seo_description|default:item.display_excerpt }}{% endblock %}
+
+{% block canonical %}https://of.by{{ item.get_absolute_url }}{% endblock %}
+
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ item.seo_title|default:item.display_title|escapejs }}{% endblock %}
+{% block og_description %}{{ item.seo_description|default:item.display_excerpt|escapejs }}{% endblock %}
+{% if item.image %}{% block og_image %}https://of.by{{ item.image.url }}{% endblock %}{% endif %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"{{ item.display_title|escapejs }}","description":"{{ item.display_excerpt|escapejs }}","url":"https://of.by{{ item.get_absolute_url }}"{% if item.published_date %},"datePublished":"{{ item.published_date|date:'c' }}"{% endif %}{% if item.updated_at %},"dateModified":"{{ item.updated_at|date:'c' }}"{% endif %}{% if item.image %},"image":"https://of.by{{ item.image.url }}"{% endif %},"publisher":{"@type":"Organization","name":"of.by","url":"https://of.by"}{% if category %},"articleSection":"{{ category.display_title|escapejs }}"{% endif %}}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-3 py-3">
+  <div class="row g-4">
+    <div class="col-12 col-lg-8">
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+          {% if category %}
+          <li class="breadcrumb-item"><a href="{{ category.get_absolute_url }}">{{ category.display_title }}</a></li>
+          {% endif %}
+          <li class="breadcrumb-item active">{{ item.display_title|truncatechars:60 }}</li>
+        </ol>
+      </nav>
+
+      <article class="article-body">
+        <div class="article-header mb-3">
+          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            {% if item.category %}
+            <span class="badge badge-cat badge-{{ item.category.color }}">{{ item.category.display_title }}</span>
+            {% endif %}
+            {% if item.display_type_badge %}<span class="badge badge-type">{{ item.display_type_badge }}</span>{% endif %}
+          </div>
+          <h1 class="article-title">{{ item.display_title }}</h1>
+          <div class="article-meta">
+            {% if item.author %}<span><i class="bi bi-person"></i> {{ item.display_author }}</span>{% endif %}
+            {% if item.published_date %}<span><i class="bi bi-calendar3"></i> {{ item.published_date|date:"d.m.Y" }}</span>{% endif %}
+            <span><i class="bi bi-eye"></i> {{ item.views }}</span>
+            {% if item.tags %}
+            <span><i class="bi bi-tags"></i> {{ item.display_tags }}</span>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if item.image %}
+        <img src="{{ item.image.url }}" alt="{{ item.display_title }}" class="article-cover mb-3">
+        {% endif %}
+
+        {% if item.excerpt %}
+        <div class="article-excerpt">{{ item.display_excerpt }}</div>
+        {% endif %}
+
+        {% if item.video_url %}
+        <div class="ratio ratio-16x9 mb-3">
+          <iframe src="{{ item.get_youtube_embed_url }}" allowfullscreen title="{{ item.display_title }}"></iframe>
+        </div>
+        {% endif %}
+
+        <div class="article-content">
+          {{ item.content|safe }}
+        </div>
+
+        {% if item.file %}
+        <div class="article-file mt-3">
+          <a href="{{ item.file.url }}" class="btn btn-outline-primary" download>
+            <i class="bi bi-download me-2"></i>{{ item.display_file_title|default:"Скачать файл" }}
+          </a>
+        </div>
+        {% endif %}
+      </article>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      {% if related %}
+      <div class="sidebar-block">
+        <div class="section-header section-header--{{ category.color }} mb-2">
+          <span>Читайте также</span>
+        </div>
+        {% for r in related %}
+        <a href="{{ r.get_absolute_url }}" class="side-news__item">
+          {% if r.image %}
+          <img src="{{ r.image.url }}" alt="{{ r.display_title }}" class="side-news__img">
+          {% else %}
+          <img src="{{ r.fallback_image_url }}" alt="{{ r.display_title }}" class="side-news__img">
+          {% endif %}
+          <div class="side-news__body">
+            <p class="side-news__title">{{ r.display_title|truncatechars:90 }}</p>
+            <span class="side-news__date">{{ r.published_date|date:"d.m.Y" }}</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="sidebar-block mt-3">
+        <div class="section-header section-header--gray mb-2">
+          <span>Разделы портала</span>
+        </div>
+        <div class="sidebar-cats">
+          {% for cat in categories %}
+          <a href="{{ cat.get_absolute_url }}" class="sidebar-cat sidebar-cat--{{ cat.color }}">
+            <img src="{{ cat.icon_asset_url }}" alt="" class="sidebar-cat__icon"> {{ cat.display_title }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

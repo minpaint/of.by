@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" fill="none">
+  <rect width="1200" height="720" fill="#F3F0FA"/>
+  <circle cx="300" cy="322" r="168" fill="#6B5BB8"/>
+  <!-- two interlocking gears -->
+  <g fill="#FFFFFF">
+    <!-- big gear -->
+    <circle cx="290" cy="318" r="58"/>
+  </g>
+  <g fill="#6B5BB8">
+    <!-- gear teeth (big) -->
+    <rect x="282" y="244" width="16" height="28" rx="4"/>
+    <rect x="282" y="364" width="16" height="28" rx="4"/>
+    <rect x="216" y="310" width="28" height="16" rx="4"/>
+    <rect x="336" y="310" width="28" height="16" rx="4"/>
+    <rect x="236" y="262" width="24" height="18" rx="4" transform="rotate(45 248 271)"/>
+    <rect x="320" y="356" width="24" height="18" rx="4" transform="rotate(45 332 365)"/>
+  </g>
+  <circle cx="290" cy="318" r="22" fill="#6B5BB8"/>
+  <circle cx="290" cy="318" r="58" stroke="#6B5BB8" stroke-width="0" fill="none"/>
+  <!-- small gear -->
+  <g fill="#FFFFFF">
+    <circle cx="372" cy="392" r="40"/>
+  </g>
+  <g fill="#6B5BB8">
+    <rect x="366" y="342" width="12" height="20" rx="3"/>
+    <rect x="366" y="422" width="12" height="20" rx="3"/>
+    <rect x="322" y="386" width="20" height="12" rx="3"/>
+    <rect x="402" y="386" width="20" height="12" rx="3"/>
+  </g>
+  <circle cx="372" cy="392" r="15" fill="#6B5BB8"/>
+  <!-- title -->
+  <rect x="586" y="184" width="388" height="64" rx="18" fill="#6B5BB8"/>
+  <line x1="610" y1="216" x2="950" y2="216" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <!-- body -->
+  <rect x="586" y="286" width="392" height="24" rx="12" fill="#9485CE"/>
+  <rect x="586" y="328" width="336" height="24" rx="12" fill="#9485CE" opacity=".85"/>
+  <rect x="586" y="370" width="372" height="24" rx="12" fill="#9485CE" opacity=".7"/>
+  <rect x="586" y="412" width="264" height="24" rx="12" fill="#9485CE" opacity=".55"/>
+  <!-- cta -->
+  <rect x="586" y="478" width="196" height="66" rx="20" fill="#4A3D8F"/>
+</svg>

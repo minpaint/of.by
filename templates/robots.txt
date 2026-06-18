@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /adminka/
+Disallow: /search/
+Disallow: /search
+Disallow: /ckeditor5/
+Disallow: /media/uploads/
+
+Sitemap: https://of.by/sitemap.xml

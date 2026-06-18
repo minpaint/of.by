@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ item.resolved_seo_title }} — of.by{% endblock %}
+{% block meta_description %}{{ item.resolved_seo_description }}{% endblock %}
+
+{% block canonical %}https://of.by{{ item.get_absolute_url }}{% endblock %}
+
+{% block og_type %}product{% endblock %}
+{% block og_title %}{{ item.resolved_seo_title|escapejs }}{% endblock %}
+{% block og_description %}{{ item.resolved_seo_description|escapejs }}{% endblock %}
+{% if item.image %}{% block og_image %}https://of.by{{ item.image.url }}{% endblock %}{% endif %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Product","name":"{{ item.display_title|escapejs }}","description":"{{ item.display_excerpt|escapejs }}","url":"https://of.by{{ item.get_absolute_url }}"{% if item.image %},"image":"https://of.by{{ item.image.url }}"{% endif %}{% if item.display_price %},"offers":{"@type":"Offer","priceCurrency":"BYN","price":"{{ item.display_price }}","availability":"https://schema.org/InStock"}{% endif %},"brand":{"@type":"Organization","name":"of.by"}}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-3 py-3">
+  <div class="row g-4">
+    <div class="col-12 col-lg-8">
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'catalog' %}">Каталог</a></li>
+          {% for ancestor in catalog_ancestors %}
+          <li class="breadcrumb-item"><a href="{{ ancestor.get_absolute_url }}">{{ ancestor.display_title }}</a></li>
+          {% endfor %}
+          <li class="breadcrumb-item"><a href="{{ catalog_category.get_absolute_url }}">{{ catalog_category.display_title }}</a></li>
+          <li class="breadcrumb-item active">{{ item.display_title|truncatechars:70 }}</li>
+        </ol>
+      </nav>
+
+      <article class="article-body">
+        <div class="article-header mb-3">
+          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <span class="badge badge-cat badge-red">{{ catalog_category.root.display_title }}</span>
+            <span class="badge badge-type">{{ catalog_category.display_title }}</span>
+          </div>
+          <h1 class="article-title">{{ item.display_title }}</h1>
+          <div class="article-meta">
+            {% if item.published_date %}<span><i class="bi bi-calendar3"></i> {{ item.published_date|date:"d.m.Y" }}</span>{% endif %}
+            <span><i class="bi bi-eye"></i> {{ item.views }}</span>
+            {% if item.display_price %}<span><i class="bi bi-cash-coin"></i> {{ item.display_price }}</span>{% endif %}
+          </div>
+        </div>
+
+        <img src="{{ item.fallback_image_url }}" alt="{{ item.display_title }}" class="article-cover mb-3">
+
+        {% if item.excerpt %}
+        <div class="article-excerpt">{{ item.display_excerpt }}</div>
+        {% endif %}
+
+        <div class="article-content">
+          {{ item.content|safe }}
+        </div>
+
+        {% with gallery_items=item.gallery_images.all %}
+          {% if gallery_items %}
+            {% if not item.image or gallery_items|length > 1 or gallery_items.0.image.url != item.image.url %}
+            <div class="catalog-gallery mt-4" id="bootstrap-gallery">
+              {% for gallery_image in gallery_items %}
+                <a href="#" class="catalog-gallery__item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-bs-src="{{ gallery_image.image.url }}" data-bs-caption="{{ gallery_image.caption|default:item.display_title }}">
+                  <img src="{{ gallery_image.image.url }}" alt="{{ gallery_image.caption|default:item.display_title }}">
+                </a>
+              {% endfor %}
+            </div>
+            {% endif %}
+          {% endif %}
+        {% endwith %}
+
+        {% if item.files.all %}
+        <div class="article-file mt-4">
+          <div class="section-header section-header--gray mb-2">
+            <span>Файлы и вложения</span>
+          </div>
+          <div class="catalog-file-list">
+            {% for file in item.files.all %}
+            <a href="{{ file.file.url }}" class="btn btn-outline-primary">
+              <i class="bi bi-download me-2"></i>{{ file.title|default:"Скачать файл" }}
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </article>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="sidebar-block sidebar-block--sticky">
+        <div class="section-header section-header--gray mb-2">
+          <span>Контакты</span>
+        </div>
+        <div class="catalog-contact-card">
+          <div class="catalog-contact-card__lead">
+            <div class="catalog-contact-card__title">Свяжитесь с исполнителем</div>
+            <p class="catalog-contact-card__text">Уточните стоимость, сроки и подходящее решение под ваш объект.</p>
+          </div>
+
+          <div class="catalog-contact-list">
+            {% if item.phone %}
+            <a href="tel:{{ item.phone|cut:' '|cut:'('|cut:')'|cut:'-' }}" class="catalog-contact-item">
+              <span class="catalog-contact-item__icon"><i class="bi bi-telephone"></i></span>
+              <span class="catalog-contact-item__value" style="font-size: 1.1rem; font-weight: 500;">{{ item.phone }}</span>
+            </a>
+            {% endif %}
+
+            {% if item.mobile %}
+            <a href="tel:{{ item.mobile|cut:' '|cut:'('|cut:')'|cut:'-' }}" class="catalog-contact-item">
+              <span class="catalog-contact-item__icon"><i class="bi bi-phone"></i></span>
+              <span class="catalog-contact-item__value" style="font-size: 1.1rem; font-weight: 500;">{{ item.mobile }}</span>
+            </a>
+            {% endif %}
+
+            {% if item.email %}
+            <a href="mailto:{{ item.email }}" class="catalog-contact-item">
+              <span class="catalog-contact-item__icon"><i class="bi bi-envelope"></i></span>
+              <span class="catalog-contact-item__value" style="font-size: 1.1rem; font-weight: 500;">{{ item.email }}</span>
+            </a>
+            {% endif %}
+
+            {% if item.website %}
+            <a href="{{ item.website }}" target="_blank" rel="noopener" class="catalog-contact-item">
+              <span class="catalog-contact-item__icon"><i class="bi bi-globe2"></i></span>
+              <span class="catalog-contact-item__value" style="font-size: 1.1rem; font-weight: 500;">{{ item.website }}</span>
+            </a>
+            {% endif %}
+
+            {% if item.city or item.address %}
+            <div class="catalog-contact-item catalog-contact-item--static">
+              <span class="catalog-contact-item__icon"><i class="bi bi-geo-alt"></i></span>
+              <span class="catalog-contact-item__value" style="font-size: 1.1rem; font-weight: 500;">{{ item.city }}{% if item.city and item.address %}, {% endif %}{{ item.address }}</span>
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="catalog-contact-card__actions">
+            {% if item.phone %}
+            <a href="tel:{{ item.phone|cut:' '|cut:'('|cut:')'|cut:'-' }}" class="catalog-contact-card__cta">Позвонить сейчас</a>
+            {% elif item.mobile %}
+            <a href="tel:{{ item.mobile|cut:' '|cut:'('|cut:')'|cut:'-' }}" class="catalog-contact-card__cta">Позвонить сейчас</a>
+            {% endif %}
+            <button type="button" class="catalog-contact-card__cta catalog-contact-card__cta--secondary" data-bs-toggle="modal" data-bs-target="#leadFormModal">
+              Отправить заявку
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal for Gallery -->
+<div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-body position-relative">
+        <button type="button" class="btn-close position-absolute top-0 end-0 p-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 2;"></button>
+        <img src="" class="img-fluid modal-image" alt="Gallery Image">
+        <p class="modal-caption text-center mt-2"></p>
+        <button class="btn btn-outline-light modal-prev position-absolute top-50 start-0 translate-middle-y ms-3"><i class="bi bi-arrow-left-circle-fill fs-2"></i></button>
+        <button class="btn btn-outline-light modal-next position-absolute top-50 end-0 translate-middle-y me-3"><i class="bi bi-arrow-right-circle-fill fs-2"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  {% if related_items %}
+  <section class="section-products py-2 mt-4">
+    <div class="section-header section-header--violet mb-3">
+      <span>Похожие позиции</span>
+    </div>
+    <div class="row g-3">
+      {% for related in related_items %}
+      <div class="col-12 col-md-6 col-xl-3">
+        <article class="catalog-item-card">
+          <div class="catalog-item-card__media">
+            <a href="{{ related.get_absolute_url }}" class="catalog-item-card__media-link" aria-label="{{ related.display_title }}">
+              <img src="{{ related.fallback_image_url }}" alt="{{ related.display_title }}">
+            </a>
+          </div>
+          <div class="catalog-item-card__body">
+            <div class="catalog-item-card__meta">
+              <span class="badge badge-type">{{ related.category.display_title }}</span>
+              {% if related.display_price %}
+              <span class="catalog-item-card__price-badge">{{ related.display_price }}</span>
+              {% endif %}
+            </div>
+            <h2 class="catalog-item-card__title">
+              <a href="{{ related.get_absolute_url }}" class="catalog-item-card__title-link">{{ related.display_title|truncatechars:92 }}</a>
+            </h2>
+            <p class="catalog-item-card__excerpt">{{ related.display_excerpt|truncatechars:110 }}</p>
+            <div class="catalog-item-card__actions">
+              <a href="{{ related.get_absolute_url }}" class="catalog-item-card__button">Подробнее</a>
+            </div>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="leadFormModal" tabindex="-1" aria-labelledby="leadFormModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="leadFormModalLabel">Отправить заявку</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-3">На услугу: <strong>{{ item.display_title }}</strong></p>
+
+        {% if messages %}
+            <ul class="messages list-unstyled">
+                {% for message in messages %}
+                    {% if 'success' in message.tags %}
+                        <div class="alert alert-success">{{ message }}</div>
+                        <script>
+                            setTimeout(() => {
+                                const modal = bootstrap.Modal.getInstance(document.getElementById('leadFormModal'));
+                                if (modal) {
+                                    modal.hide();
+                                }
+                            }, 3000);
+                        </script>
+                    {% else %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="post" action="{% url 'catalog_item_detail' category_slug=item.category.public_slug slug=item.public_slug %}">
+            {% csrf_token %}
+            {{ lead_form.item_pk }}
+
+            {% for field in lead_form.visible_fields %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {% if field.field.widget.input_type == 'textarea' %}
+                        <textarea name="{{ field.name }}"
+                                  id="{{ field.id_for_label }}"
+                                  class="form-control"
+                                  placeholder="{{ field.field.widget.attrs.placeholder }}"
+                                  rows="3"
+                                  style="font-size: 1.1rem;">{{ field.value|default:'' }}</textarea>
+                    {% else %}
+                        <input type="{{ field.field.widget.input_type }}"
+                               name="{{ field.name }}"
+                               id="{{ field.id_for_label }}"
+                               class="form-control"
+                               placeholder="{{ field.field.widget.attrs.placeholder }}"
+                               value="{{ field.value|default:'' }}"
+                               style="font-size: 1.1rem;">
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">Отправить</button>
+            </div>
+
+            {% if lead_form.non_field_errors %}
+                <div class="alert alert-danger mt-3">
+                    {% for error in lead_form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const galleryModalElement = document.getElementById('galleryModal');
+    if (!galleryModalElement) return;
+
+    const modalImage = galleryModalElement.querySelector('.modal-image');
+    const modalCaption = galleryModalElement.querySelector('.modal-caption');
+    const prevButton = galleryModalElement.querySelector('.modal-prev');
+    const nextButton = galleryModalElement.querySelector('.modal-next');
+    const galleryItems = document.querySelectorAll('#bootstrap-gallery .catalog-gallery__item');
+    let currentIndex = 0;
+
+    function updateModalContent() {
+        if (galleryItems.length === 0) return;
+        const currentItem = galleryItems[currentIndex];
+        const imageSrc = currentItem.getAttribute('data-bs-src');
+        const captionText = currentItem.getAttribute('data-bs-caption');
+
+        modalImage.src = imageSrc;
+        modalCaption.textContent = captionText;
+
+        prevButton.style.display = currentIndex === 0 ? 'none' : 'block';
+        nextButton.style.display = currentIndex === galleryItems.length - 1 ? 'none' : 'block';
+    }
+
+    galleryModalElement.addEventListener('show.bs.modal', function (event) {
+        const clickedItem = event.relatedTarget;
+        currentIndex = Array.from(galleryItems).indexOf(clickedItem);
+        updateModalContent();
+    });
+
+    prevButton.addEventListener('click', function () {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateModalContent();
+        }
+    });
+
+    nextButton.addEventListener('click', function () {
+        if (currentIndex < galleryItems.length - 1) {
+            currentIndex++;
+            updateModalContent();
+        }
+    });
+});
+</script>
+{% endblock %}

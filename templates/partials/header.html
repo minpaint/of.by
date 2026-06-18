@@ -1,0 +1,45 @@
+{% load static %}
+<header class="site-header">
+  <div class="container-fluid px-3">
+    <div class="site-header__inner">
+
+      <a href="{% url 'home' %}" class="site-logo">
+        <div class="logo-icon">
+          <img src="{{ current_branding.icon_url }}" alt="{{ current_branding.title }}">
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">{{ current_branding.title }}</span>
+          <span class="logo-subtitle">{{ current_branding.subtitle }}</span>
+        </div>
+      </a>
+
+      {# Баннер в шапке — управляется через Админку → Баннеры (место: Шапка) #}
+      <div class="header-banner-wrap d-none d-lg-block">
+        {% if header_banner %}
+          {% if header_banner.url %}
+          <a href="{{ header_banner.url }}" class="header-banner-slot" target="_blank" rel="noopener">
+          {% else %}
+          <div class="header-banner-slot header-banner-slot--nolink">
+          {% endif %}
+            {% if header_banner.image %}
+              <img src="{{ header_banner.image.url }}" alt="{{ header_banner.title }}" class="header-banner-slot__img">
+            {% else %}
+              <div class="header-banner-slot__text">
+                <span class="header-banner-slot__title">{{ header_banner.title }}</span>
+                {% if header_banner.subtitle %}
+                <span class="header-banner-slot__sub">{{ header_banner.subtitle }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% if header_banner.url %}</a>{% else %}</div>{% endif %}
+        {% else %}
+          <div class="header-banner-slot header-banner-slot--placeholder">
+            <span class="header-banner-slot__placeholder-label">Баннерное место — шапка</span>
+            <span class="header-banner-slot__placeholder-hint">Добавьте в Админке → Баннеры</span>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</header>

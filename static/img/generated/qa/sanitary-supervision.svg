@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" fill="none">
+  <rect width="1200" height="720" fill="#F1F5F0"/>
+  <circle cx="300" cy="322" r="168" fill="#5A9E4B"/>
+  <!-- magnifier over a droplet (sanitary inspection) -->
+  <circle cx="290" cy="300" r="78" fill="#FFFFFF"/>
+  <path d="M252 312 C252 286 326 286 326 312 C326 340 290 372 290 372 C290 372 252 340 252 312 Z" fill="#5A9E4B"/>
+  <!-- magnifier handle -->
+  <rect x="346" y="350" width="74" height="22" rx="11" transform="rotate(45 346 350)" fill="#3C7A2E"/>
+  <!-- magnifier ring -->
+  <circle cx="290" cy="300" r="78" stroke="#3C7A2E" stroke-width="12" fill="none"/>
+  <!-- title -->
+  <rect x="586" y="184" width="380" height="64" rx="18" fill="#5A9E4B"/>
+  <line x1="610" y1="216" x2="942" y2="216" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <!-- body -->
+  <rect x="586" y="286" width="372" height="24" rx="12" fill="#7DB86C"/>
+  <rect x="586" y="328" width="324" height="24" rx="12" fill="#7DB86C" opacity=".85"/>
+  <rect x="586" y="370" width="392" height="24" rx="12" fill="#7DB86C" opacity=".7"/>
+  <rect x="586" y="412" width="260" height="24" rx="12" fill="#7DB86C" opacity=".55"/>
+  <!-- cta -->
+  <rect x="586" y="478" width="196" height="66" rx="20" fill="#3C7A2E"/>
+</svg>

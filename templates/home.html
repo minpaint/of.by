@@ -1,0 +1,327 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block canonical %}https://of.by/{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"of.by","url":"https://of.by","description":"Портал по охране труда, пожарной и промышленной безопасности, экологии Беларуси","inLanguage":"ru"}
+</script>
+{% endblock %}
+
+{% block content %}
+{% if slider_items %}
+<section class="main-slider-section py-3">
+  <div class="container-fluid px-3">
+    <div class="row g-3">
+      <div class="col-12 col-xl-8">
+        <div id="mainNewsSlider" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            {% for item in slider_items %}
+            <button
+              type="button"
+              data-bs-target="#mainNewsSlider"
+              data-bs-slide-to="{{ forloop.counter0 }}"
+              class="{% if forloop.first %}active{% endif %}"
+              {% if forloop.first %}aria-current="true"{% endif %}
+              aria-label="Слайд {{ forloop.counter }}"
+            ></button>
+            {% endfor %}
+          </div>
+
+          <div class="carousel-inner">
+            {% for item in slider_items %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <a href="{{ item.get_absolute_url }}">
+                {% if item.image %}
+                <img src="{{ item.image.url }}" class="slider-img" alt="{{ item.display_title }}">
+                {% else %}
+                <img src="{{ item.fallback_image_url }}" class="slider-img" alt="{{ item.display_title }}">
+                {% endif %}
+
+                <div class="carousel-caption-custom">
+                  {% if item.category %}
+                  <span class="badge badge-cat badge-{{ item.category.color }}">{{ item.category.display_title }}</span>
+                  {% endif %}
+                  <h1 class="slider-title">{{ item.display_title|truncatechars:150 }}</h1>
+                  <p class="slider-excerpt">{{ item.display_excerpt|truncatechars:220 }}</p>
+                  <div class="slider-meta">
+                    <span><i class="bi bi-calendar3"></i> {{ item.published_date|date:"d.m.Y" }}</span>
+                    <span><i class="bi bi-eye"></i> {{ item.views }}</span>
+                    {% if item.category %}
+                    <span><i class="bi bi-folder2-open"></i> {{ item.category.display_title }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#mainNewsSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#mainNewsSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+          </button>
+        </div>
+
+        <div class="home-other-news mt-3">
+          <div class="section-header section-header--gray mb-0">
+            <span>Другие новости</span>
+          </div>
+          <div class="home-other-news__panel">
+            <div class="home-other-news__grid">
+              {% for item in featured_items %}
+              <a href="{{ item.get_absolute_url }}" class="home-other-news-card">
+                <div class="home-other-news-card__thumb">
+                  {% if item.image %}
+                  <img src="{{ item.image.url }}" alt="{{ item.display_title }}">
+                  {% else %}
+                  <img src="{{ item.fallback_image_url }}" alt="{{ item.display_title }}">
+                  {% endif %}
+                </div>
+                <div class="home-other-news-card__body">
+                  <div class="rail-news__meta">
+                    {% if item.category %}
+                    <span class="badge badge-type">{{ item.category.display_title }}</span>
+                    {% endif %}
+                    <div class="rail-news__date">{{ item.published_date|date:"d.m.Y" }}</div>
+                  </div>
+                  <h4 class="home-other-news-card__title">{{ item.display_title|truncatechars:88 }}</h4>
+                </div>
+              </a>
+              {% empty %}
+              <div class="catalog-list__empty">Пока нет дополнительных новостей.</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-4">
+        <aside class="home-main-sidebar">
+          <div class="portal-panel home-catalog-sidebar">
+            <div class="section-header section-header--gray">
+              <span>Разделы каталога</span>
+            </div>
+            <div class="portal-panel__body">
+              <div class="home-catalog-sidebar__intro">
+                Быстрые переходы к основным направлениям каталога товаров и услуг.
+              </div>
+              <div class="home-catalog-sidebar__links">
+                {% for section in catalog_sidebar_sections %}
+                <a href="{{ section.url }}" class="catalog-anchor home-catalog-sidebar__link">
+                  <span class="home-catalog-sidebar__icon" aria-hidden="true">
+                    <img src="{{ section.icon_url }}" alt="">
+                  </span>
+                  <span class="home-catalog-sidebar__text">{{ section.title }}</span>
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="portal-panel home-main-sidebar__panel mt-3">
+            <div class="section-header section-header--gray">
+              <span>Быстрый доступ</span>
+            </div>
+            <div class="portal-panel__body">
+              <div class="portal-links">
+                <a href="{% url 'catalog' %}" class="portal-link">
+                  <img src="{% static 'img/icons/box.svg' %}" alt="" class="portal-link__icon-img">
+                  <span>Каталог услуг</span>
+                </a>
+                <a href="{% url 'search' %}?type=event" class="portal-link">
+                  <img src="{% static 'img/icons/folder.svg' %}" alt="" class="portal-link__icon-img">
+                  <span>События</span>
+                </a>
+                <a href="{% url 'search' %}?type=video" class="portal-link">
+                  <img src="{% static 'img/icons/question.svg' %}" alt="" class="portal-link__icon-img">
+                  <span>Видео</span>
+                </a>
+                <a href="/stati-po-okhrane-truda/" class="portal-link">
+                  <img src="{% static 'img/icons/briefcase.svg' %}" alt="" class="portal-link__icon-img">
+                  <span>Статьи</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+{% if section_blocks %}
+<div class="container-fluid px-3 py-3 home-blocks-grid">
+  <div class="row g-4 align-items-stretch">
+    {% for block in section_blocks %}
+    {% if videos and block.category.slug == 'health' or videos and block.category.slug == 'promyshlennaya-bezopasnost' %}
+    <div class="col-12 d-flex">
+      <section class="video-showcase video-showcase--grid video-showcase--dark w-100">
+        <div class="section-header section-header--indigo mb-3">
+          <span>Популярное видео</span>
+          <a href="{% url 'search' %}?type=video" class="section-header__link">Все видео</a>
+        </div>
+
+        <div class="video-showcase__panel">
+          <div class="row g-3">
+            <div class="col-12 {% if videos|length > 1 %}col-xl-6{% else %}col-xl-12{% endif %}">
+              {% with lead_video=videos|first %}
+              {% if lead_video %}
+              <a href="{{ lead_video.get_absolute_url }}" class="video-showcase__lead">
+                <div class="video-showcase__lead-media">
+                  {% if lead_video.image %}
+                  <img src="{{ lead_video.image.url }}" alt="{{ lead_video.display_title }}" class="video-showcase__lead-img">
+                  {% else %}
+                  <img src="{{ lead_video.fallback_image_url }}" alt="{{ lead_video.display_title }}" class="video-showcase__lead-img">
+                  {% endif %}
+                  <span class="video-showcase__play">
+                    <i class="bi bi-play-fill"></i>
+                  </span>
+                </div>
+                <div class="video-showcase__lead-body">
+                  {% if lead_video.category %}
+                  <span class="badge badge-cat badge-{{ lead_video.category.color }}">{{ lead_video.category.display_title }}</span>
+                  {% endif %}
+                  <h2 class="video-showcase__lead-title">{{ lead_video.display_title|truncatechars:120 }}</h2>
+                  <p class="video-showcase__lead-excerpt">{{ lead_video.display_excerpt|truncatechars:180 }}</p>
+                  <div class="video-showcase__meta">
+                    <span><i class="bi bi-calendar3"></i> {{ lead_video.published_date|date:"d.m.Y" }}</span>
+                    <span><i class="bi bi-eye"></i> {{ lead_video.views }}</span>
+                  </div>
+                </div>
+              </a>
+              {% endif %}
+              {% endwith %}
+            </div>
+
+            {% if videos|length > 1 %}
+            <div class="col-12 col-xl-6">
+              <div class="row g-3">
+                {% for item in videos|slice:"1:5" %}
+                <div class="col-12 col-md-6">
+                  <a href="{{ item.get_absolute_url }}" class="video-card">
+                    <div class="video-card__media">
+                      {% if item.image %}
+                      <img src="{{ item.image.url }}" alt="{{ item.display_title }}" class="video-card__img">
+                      {% else %}
+                      <img src="{{ item.fallback_image_url }}" alt="{{ item.display_title }}" class="video-card__img">
+                      {% endif %}
+                      <span class="video-card__play">
+                        <i class="bi bi-play-fill"></i>
+                      </span>
+                    </div>
+                    <div class="video-card__body">
+                      {% if item.category %}
+                      <span class="video-card__category">{{ item.category.display_title }}</span>
+                      {% endif %}
+                      <h3 class="video-card__title">{{ item.display_title|truncatechars:82 }}</h3>
+                      <div class="video-card__meta">{{ item.published_date|date:"d.m.Y" }} · Просмотров: {{ item.views }}</div>
+                    </div>
+                  </a>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    </div>
+    {% endif %}
+
+    <div class="col-12 col-xl-6 d-flex">
+      <section class="home-news-section home-news-section--grid w-100">
+        <div class="section-header section-header--{{ block.category.color }} mb-2">
+          <span class="section-heading-with-icon">
+            <img src="{{ block.category.icon_asset_url }}" alt="" class="section-heading-icon">
+            {{ block.title|default:block.category.display_title }}
+          </span>
+          <a href="{{ block.category.get_absolute_url }}" class="section-header__link">Все материалы</a>
+        </div>
+
+        <div class="home-news-section__panel">
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              {% if block.lead %}
+              <a href="{{ block.lead.get_absolute_url }}" class="news-card news-card--lead home-news-section__lead">
+                {% if block.lead.image %}
+                <img src="{{ block.lead.image.url }}" alt="{{ block.lead.display_title }}" class="news-card__img">
+                {% else %}
+                <img src="{{ block.lead.fallback_image_url }}" alt="{{ block.lead.display_title }}" class="news-card__img">
+                {% endif %}
+                <div class="news-card__body">
+                  {% if block.lead.display_type_badge %}<span class="badge badge-type">{{ block.lead.display_type_badge }}</span>{% endif %}
+                  <h2 class="news-card__title news-card__title--lead">{{ block.lead.display_title|truncatechars:130 }}</h2>
+                  <p class="news-card__excerpt">{{ block.lead.display_excerpt|truncatechars:165 }}</p>
+                  <div class="news-card__meta">
+                    <span><i class="bi bi-calendar3"></i> {{ block.lead.published_date|date:"d.m.Y" }}</span>
+                    <span><i class="bi bi-eye"></i> {{ block.lead.views }}</span>
+                  </div>
+                </div>
+              </a>
+              {% endif %}
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="home-news-section__list">
+                <div class="home-news-section__list-title">Последние новости раздела</div>
+                <div class="catalog-list catalog-list--compact">
+                  {% for item in block.latest %}
+                  <a href="{{ item.get_absolute_url }}" class="catalog-list__item">
+                    {% if item.display_type_badge %}<span class="catalog-list__type">{{ item.display_type_badge }}</span>{% endif %}
+                    <span class="catalog-list__title">{{ item.display_title|truncatechars:125 }}</span>
+                    <span class="catalog-list__meta">{{ item.published_date|date:"d.m.Y" }} — Просмотров: {{ item.views }}</span>
+                  </a>
+                  {% empty %}
+                  <div class="catalog-list__empty">Пока нет дополнительных материалов в разделе.</div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% if products %}
+<section class="section-products py-3">
+  <div class="container-fluid px-3">
+    <div class="section-header section-header--violet mb-3">
+      <span>Товары и услуги</span>
+      <a href="{% url 'catalog' %}" class="section-header__link">Весь каталог</a>
+    </div>
+    <div class="row g-3">
+      {% for item in products %}
+      <div class="col-6 col-md-4 col-xl-3">
+        <a href="{{ item.get_absolute_url }}" class="product-card">
+          <div class="product-card__icon-wrap">
+            {% if item.category %}
+            <img src="{{ item.category.icon_asset_url }}" alt="" class="product-card__icon-img">
+            {% else %}
+            <img src="{% static 'img/icons/box.svg' %}" alt="" class="product-card__icon-img">
+            {% endif %}
+          </div>
+          <div class="product-card__title">{{ item.display_title|truncatechars:60 }}</div>
+          <p class="product-card__desc">{{ item.display_excerpt|truncatechars:85 }}</p>
+          {% if item.price %}
+          <div class="product-card__price">{{ item.price }} BYN</div>
+          {% endif %}
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

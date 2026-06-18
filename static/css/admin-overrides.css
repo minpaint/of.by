@@ -1,0 +1,793 @@
+.change-form-wide #content-main {
+    max-width: 100%;
+}
+
+.change-form-wide .content-wrapper > .content {
+    padding-right: 1.5rem;
+}
+
+.change-form-wide .changeform-toolbar-card {
+    margin-bottom: 1rem;
+}
+
+.change-form-wide .changeform-main-card,
+.change-form-wide .card-body .tab-content,
+.change-form-wide .module {
+    width: 100%;
+}
+
+.change-form-wide .nav-tabs {
+    gap: 0.35rem;
+    border-bottom: 1px solid rgba(40, 52, 70, 0.1);
+    margin-bottom: 1rem;
+}
+
+.change-form-wide .nav-tabs .nav-link {
+    border-radius: 10px 10px 0 0;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+}
+
+.change-form-wide .tab-content > .tab-pane,
+.change-form-wide .grouped-items {
+    padding-top: 0.25rem;
+}
+
+.change-form-wide .submit-row,
+.change-form-wide .changeform-submit-top .d-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: center;
+}
+
+.change-form-wide .changeform-submit-top .d-flex,
+.change-form-wide .object-tools {
+    row-gap: 0.5rem;
+}
+
+.change-form-wide .changeform-submit-top .btn,
+.change-form-wide .changeform-submit-top input,
+.change-form-wide .object-tools .btn,
+.change-form-wide .object-tools a {
+    white-space: nowrap;
+}
+
+.change-form-wide .submit-row {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.change-form-wide .submit-row input,
+.change-form-wide .submit-row .deletelink,
+.change-form-wide .submit-row a {
+    min-height: 42px;
+    padding: 0.7rem 1rem;
+    border-radius: 12px;
+}
+
+.change-form-wide .inline-group {
+    width: 100%;
+}
+
+.change-form-wide .form-row,
+.change-form-wide .fieldBox,
+.change-form-wide .aligned label + div,
+.change-form-wide .aligned .form-row > div {
+    max-width: 100%;
+}
+
+.change-form-wide fieldset.module {
+    margin-bottom: 1.15rem;
+    padding: 1.1rem 1.15rem 1.2rem;
+    border: 1px solid rgba(40, 52, 70, 0.08);
+    border-radius: 14px;
+    background: #fff;
+}
+
+.change-form-wide fieldset.module h2,
+.change-form-wide fieldset.module .fieldset-heading {
+    margin: 0 0 1rem;
+    padding: 0 0 0.7rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(40, 52, 70, 0.08);
+}
+
+.change-form-wide .form-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+    align-items: start;
+    gap: 0.75rem 1.1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(40, 52, 70, 0.06);
+}
+
+.change-form-wide .form-row:last-child {
+    border-bottom: 0;
+}
+
+.change-form-wide .form-row > div,
+.change-form-wide .form-row .fieldBox {
+    min-width: 0;
+}
+
+.change-form-wide .form-row.field-excerpt,
+.change-form-wide .form-row.field-content,
+.change-form-wide .form-row.field-image_preview {
+    grid-template-columns: 1fr;
+}
+
+.change-form-wide .fieldBox {
+    min-width: 0;
+}
+
+.change-form-wide .field-related_categories,
+.change-form-wide .field-description,
+.change-form-wide .field-public_slug,
+.change-form-wide .field-image_preview,
+.change-form-wide .field-excerpt,
+.change-form-wide .field-content {
+    grid-column: 1 / -1;
+}
+
+.change-form-wide .fieldBox label,
+.change-form-wide .form-row > label,
+.change-form-wide .aligned .form-row label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.change-form-wide .form-row .help,
+.change-form-wide .form-row .helptext {
+    margin-top: 0.4rem;
+    color: #5b6574;
+    font-size: 0.92rem;
+}
+
+.change-form-wide .form-row .vTextField,
+.change-form-wide .form-row .vURLField,
+.change-form-wide .form-row input[type="text"],
+.change-form-wide .form-row input[type="url"],
+.change-form-wide .form-row input[type="number"],
+.change-form-wide .form-row input[type="date"],
+.change-form-wide .form-row input[type="time"],
+.change-form-wide .form-row input[type="datetime-local"],
+.change-form-wide .form-row select,
+.change-form-wide .form-row textarea {
+    width: 100%;
+    max-width: 100%;
+}
+
+.change-form-wide .form-row .vTextField,
+.change-form-wide .form-row .vURLField,
+.change-form-wide .form-row input[type="text"],
+.change-form-wide .form-row input[type="url"],
+.change-form-wide .form-row input[type="number"],
+.change-form-wide .form-row input[type="date"],
+.change-form-wide .form-row input[type="time"],
+.change-form-wide .form-row input[type="datetime-local"],
+.change-form-wide .form-row select {
+    min-height: 36px;
+    padding: 0.48rem 0.85rem;
+    border-radius: 12px;
+    border: 1px solid rgba(40, 52, 70, 0.14);
+    background: #fff;
+    box-shadow: inset 0 1px 2px rgba(20, 30, 48, 0.03);
+}
+
+.change-form-wide .form-row textarea {
+    border-radius: 12px;
+    border: 1px solid rgba(40, 52, 70, 0.14);
+    padding: 0.8rem 0.95rem;
+}
+
+.change-form-wide .form-row .vTextField:focus,
+.change-form-wide .form-row .vURLField:focus,
+.change-form-wide .form-row input[type="text"]:focus,
+.change-form-wide .form-row input[type="url"]:focus,
+.change-form-wide .form-row input[type="number"]:focus,
+.change-form-wide .form-row input[type="date"]:focus,
+.change-form-wide .form-row input[type="time"]:focus,
+.change-form-wide .form-row input[type="datetime-local"]:focus,
+.change-form-wide .form-row select:focus,
+.change-form-wide .form-row textarea:focus {
+    border-color: rgba(29, 111, 246, 0.35);
+    box-shadow: 0 0 0 3px rgba(29, 111, 246, 0.08);
+    outline: 0;
+}
+
+.change-form-wide .form-row .datetime {
+    display: grid;
+    grid-template-columns: minmax(280px, 360px);
+    gap: 0.5rem;
+    justify-content: start;
+}
+
+.change-form-wide .form-row .datetime br {
+    display: none;
+}
+
+.change-form-wide .form-row .datetime input,
+.change-form-wide .form-row .datetime .vDateField,
+.change-form-wide .form-row .datetime .vTimeField {
+    width: 100%;
+    max-width: 100%;
+}
+
+.change-form-wide .form-row .datetime .datetimeshortcuts {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: 0.5rem;
+}
+
+.change-form-wide .form-row .related-widget-wrapper,
+.change-form-wide .form-row .related-widget-wrapper > *:first-child {
+    width: 100%;
+    max-width: 100%;
+}
+
+.change-form-wide .field-parent .related-widget-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: nowrap;
+}
+
+.change-form-wide .field-parent .related-widget-wrapper select,
+.change-form-wide .field-parent .related-widget-wrapper .select2,
+.change-form-wide .field-parent .related-widget-wrapper > select {
+    width: min(420px, 100%) !important;
+    max-width: min(420px, 100%) !important;
+    flex: 0 1 420px;
+}
+
+.change-form-wide .field-parent .related-widget-wrapper a,
+.change-form-wide .field-parent .related-widget-wrapper .related-widget-wrapper-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin: 0;
+    border-radius: 10px;
+    background: rgba(37, 99, 235, 0.08);
+}
+
+.change-form-wide .field-parent .related-widget-wrapper a span,
+.change-form-wide .field-parent .related-widget-wrapper .related-widget-wrapper-link span {
+    line-height: 1;
+}
+
+.change-form-wide .field-parent {
+    align-items: center;
+}
+
+.change-form-wide .field-description textarea {
+    min-height: 180px;
+}
+
+.change-form-wide.model-category .changeform-toolbar-card .card-body {
+    padding: 1rem 1.15rem;
+}
+
+.change-form-wide.model-category .changeform-submit-top,
+.change-form-wide.model-category .object-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: center;
+}
+
+.change-form-wide.model-category .field-title input,
+.change-form-wide.model-category .field-public_slug input {
+    min-height: 36px;
+    padding: 0.48rem 0.85rem;
+    font-size: 1rem;
+    border-radius: 12px;
+}
+
+.change-form-wide.model-category .field-title .help,
+.change-form-wide.model-category .field-public_slug .help,
+.change-form-wide.model-category .field-title .helptext,
+.change-form-wide.model-category .field-public_slug .helptext {
+    margin-top: 0.5rem;
+}
+
+.change-form-wide.model-category .field-parent .related-widget-wrapper {
+    align-items: flex-start;
+}
+
+.change-form-wide.model-category .field-parent .related-widget-wrapper > :first-child {
+    flex: 0 1 420px;
+    min-width: 320px;
+}
+
+.change-form-wide.model-category .field-parent .related-widget-wrapper a,
+.change-form-wide.model-category .field-parent .related-widget-wrapper .related-widget-wrapper-link {
+    flex: 0 0 34px;
+    margin-top: 6px;
+}
+
+.change-form-wide.model-category .field-description textarea {
+    min-height: 220px;
+}
+
+.change-form-wide.model-category .field-related_categories .selector {
+    border: 1px solid rgba(40, 52, 70, 0.1);
+    border-radius: 14px;
+    padding: 0.85rem;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.94) 0%, #ffffff 100%);
+}
+
+.change-form-wide.model-category .field-related_categories .selector h2 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.change-form-wide.model-category .field-related_categories .selector select {
+    min-height: 320px;
+    border-radius: 12px;
+}
+
+.change-form-wide.model-contentitem .nav-tabs {
+    gap: 0.45rem;
+    margin-bottom: 1.15rem;
+}
+
+.change-form-wide.model-contentitem .nav-tabs .nav-link {
+    border-radius: 12px 12px 0 0;
+    padding: 0.8rem 1.1rem;
+    font-weight: 700;
+    color: #2153a6;
+    background: linear-gradient(180deg, rgba(245, 248, 252, 0.96) 0%, rgba(255, 255, 255, 1) 100%);
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    border-bottom-color: transparent;
+}
+
+.change-form-wide.model-contentitem .nav-tabs .nav-link.active,
+.change-form-wide.model-contentitem .nav-tabs .nav-item.show .nav-link {
+    color: #10233f;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(247, 250, 254, 1) 100%);
+    box-shadow: 0 10px 22px rgba(29, 78, 216, 0.08);
+}
+
+.change-form-wide.model-contentitem fieldset.module {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid rgba(30, 41, 59, 0.08);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+}
+
+.change-form-wide.model-contentitem fieldset.module h2,
+.change-form-wide.model-contentitem fieldset.module .fieldset-heading {
+    margin: 0;
+    padding: 1rem 1.2rem 0.95rem;
+    font-size: 1.03rem;
+    font-weight: 800;
+    color: #13223a;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.96) 0%, rgba(255, 255, 255, 1) 100%);
+    border-bottom: 1px solid rgba(30, 41, 59, 0.08);
+}
+
+.change-form-wide.model-contentitem fieldset.module .description {
+    margin: 0;
+    padding: 1rem 1.2rem;
+    background: linear-gradient(180deg, rgba(244, 248, 255, 0.95) 0%, rgba(255, 255, 255, 1) 100%);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.08);
+    color: #526173;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.change-form-wide.model-contentitem .form-row {
+    padding: 1rem 1.2rem;
+}
+
+.change-form-wide.model-contentitem .field-title,
+.change-form-wide.model-contentitem .field-public_slug,
+.change-form-wide.model-contentitem .field-excerpt,
+.change-form-wide.model-contentitem .field-content,
+.change-form-wide.model-contentitem .field-seo_title,
+.change-form-wide.model-contentitem .field-seo_description,
+.change-form-wide.model-contentitem .field-tags,
+.change-form-wide.model-contentitem .field-image_preview {
+    grid-column: 1 / -1;
+}
+
+.change-form-wide.model-contentitem .field-title input,
+.change-form-wide.model-contentitem .field-public_slug input,
+.change-form-wide.model-contentitem .field-seo_title input {
+    min-height: 40px;
+    font-size: 1rem;
+}
+
+.change-form-wide.model-contentitem .field-category select,
+.change-form-wide.model-contentitem .field-content_type select,
+.change-form-wide.model-contentitem .field-status select {
+    max-width: 100%;
+}
+
+.change-form-wide.model-contentitem .field-category .related-widget-wrapper {
+    align-items: flex-start;
+}
+
+.change-form-wide.model-contentitem .field-category .related-widget-wrapper > :first-child {
+    flex: 1 1 420px;
+    min-width: 300px;
+}
+
+.change-form-wide.model-contentitem .field-category .related-widget-wrapper a,
+.change-form-wide.model-contentitem .field-category .related-widget-wrapper .related-widget-wrapper-link {
+    flex: 0 0 34px;
+    margin-top: 4px;
+}
+
+.change-form-wide.model-contentitem .field-is_featured,
+.change-form-wide.model-contentitem .field-is_main_slider {
+    display: flex;
+    align-items: center;
+    min-height: 58px;
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(247, 250, 255, 0.96) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.change-form-wide.model-contentitem .field-is_featured .checkbox-row,
+.change-form-wide.model-contentitem .field-is_main_slider .checkbox-row,
+.change-form-wide.model-contentitem .field-is_featured label,
+.change-form-wide.model-contentitem .field-is_main_slider label {
+    width: 100%;
+}
+
+.change-form-wide.model-contentitem .field-is_featured label,
+.change-form-wide.model-contentitem .field-is_main_slider label {
+    margin: 0;
+    font-weight: 700;
+}
+
+.change-form-wide.model-contentitem .field-image_preview {
+    margin-top: 0.35rem;
+    padding: 1rem 1.05rem 1.1rem;
+    border: 1px solid rgba(40, 52, 70, 0.1);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.96) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.change-form-wide.model-contentitem .field-image_preview img {
+    max-height: 220px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+.change-form-wide.model-contentitem .field-excerpt {
+    margin-top: 0.85rem;
+}
+
+.change-form-wide.model-contentitem .field-content {
+    margin-top: 0.35rem;
+}
+
+.change-form-wide.model-contentitem .field-excerpt .ck.ck-content,
+.change-form-wide.model-contentitem .field-excerpt .ck-editor__editable_inline {
+    min-height: 220px;
+}
+
+.change-form-wide.model-contentitem .field-content .ck.ck-content,
+.change-form-wide.model-contentitem .field-content .ck-editor__editable_inline {
+    min-height: 760px;
+}
+
+.change-form-wide.model-contentitem .field-seo_description textarea {
+    min-height: 180px;
+}
+
+.change-form-wide.model-contentitem .field-views input,
+.change-form-wide.model-contentitem .field-created_at input,
+.change-form-wide.model-contentitem .field-updated_at input {
+    background: rgba(248, 250, 252, 0.92);
+}
+
+.change-form-wide.model-catalogitem fieldset.module {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid rgba(30, 41, 59, 0.08);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+}
+
+.change-form-wide.model-catalogitem fieldset.module h2,
+.change-form-wide.model-catalogitem fieldset.module .fieldset-heading {
+    margin: 0;
+    padding: 1rem 1.2rem 0.95rem;
+    font-size: 1.03rem;
+    font-weight: 800;
+    color: #13223a;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.96) 0%, rgba(255, 255, 255, 1) 100%);
+    border-bottom: 1px solid rgba(30, 41, 59, 0.08);
+}
+
+.change-form-wide.model-catalogitem fieldset.module .description {
+    margin: 0;
+    padding: 1rem 1.2rem;
+    background: linear-gradient(180deg, rgba(244, 248, 255, 0.95) 0%, rgba(255, 255, 255, 1) 100%);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.08);
+    color: #526173;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.change-form-wide.model-catalogitem .form-row {
+    padding: 1rem 1.2rem;
+}
+
+.change-form-wide.model-catalogitem .field-title,
+.change-form-wide.model-catalogitem .field-public_slug,
+.change-form-wide.model-catalogitem .field-excerpt,
+.change-form-wide.model-catalogitem .field-content,
+.change-form-wide.model-catalogitem .field-address,
+.change-form-wide.model-catalogitem .field-seo_title,
+.change-form-wide.model-catalogitem .field-seo_description,
+.change-form-wide.model-catalogitem .field-image_preview {
+    grid-column: 1 / -1;
+}
+
+.change-form-wide.model-catalogitem .field-title input,
+.change-form-wide.model-catalogitem .field-public_slug input,
+.change-form-wide.model-catalogitem .field-seo_title input {
+    min-height: 40px;
+    font-size: 1rem;
+}
+
+.change-form-wide.model-catalogitem .field-category .related-widget-wrapper {
+    align-items: flex-start;
+}
+
+.change-form-wide.model-catalogitem .field-category .related-widget-wrapper > :first-child {
+    flex: 1 1 420px;
+    min-width: 300px;
+}
+
+.change-form-wide.model-catalogitem .field-category .related-widget-wrapper a,
+.change-form-wide.model-catalogitem .field-category .related-widget-wrapper .related-widget-wrapper-link {
+    flex: 0 0 34px;
+    margin-top: 4px;
+}
+
+.change-form-wide.model-catalogitem .field-is_active,
+.change-form-wide.model-catalogitem .field-is_featured {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 0.2rem 0;
+    border: 0;
+    background: transparent;
+}
+
+.change-form-wide.model-catalogitem .field-is_active label,
+.change-form-wide.model-catalogitem .field-is_featured label {
+    margin: 0;
+    font-weight: 700;
+}
+
+.change-form-wide.model-catalogitem .field-image_preview {
+    margin-top: 0.35rem;
+    padding: 1rem 1.05rem 1.1rem;
+    border: 1px solid rgba(40, 52, 70, 0.1);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.96) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.change-form-wide.model-catalogitem .field-image_preview img {
+    max-height: 220px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+.change-form-wide.model-catalogitem .field-excerpt {
+    margin-top: 0.85rem;
+}
+
+.change-form-wide.model-catalogitem .field-content {
+    margin-top: 0.35rem;
+}
+
+.change-form-wide.model-catalogitem .field-excerpt .ck.ck-content,
+.change-form-wide.model-catalogitem .field-excerpt .ck-editor__editable_inline {
+    min-height: 220px;
+}
+
+.change-form-wide.model-catalogitem .field-content .ck.ck-content,
+.change-form-wide.model-catalogitem .field-content .ck-editor__editable_inline {
+    min-height: 620px;
+}
+
+.change-form-wide .form-row .checkbox-row,
+.change-form-wide .form-row .checkbox-row ul,
+.change-form-wide .form-row .radiolist {
+    margin: 0;
+}
+
+.change-form-wide .form-row .form-check,
+.change-form-wide .form-row .checkbox-row label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.change-form-wide .field-image_preview img {
+    display: block;
+    margin-top: 0.35rem;
+}
+
+.change-form-wide .field-related_categories .selector {
+    width: 100%;
+    max-width: 100%;
+}
+
+.change-form-wide .field-related_categories .selector-available,
+.change-form-wide .field-related_categories .selector-chosen {
+    width: calc(50% - 18px);
+}
+
+.change-form-wide .field-related_categories .selector-filter input {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.change-form-wide .field-related_categories .selector ul.selector-chooser {
+    width: 36px;
+}
+
+.change-form-wide .field-related_categories .selector select {
+    min-height: 280px;
+}
+
+.change-form-wide .ck-editor,
+.change-form-wide .django-ckeditor-widget,
+.change-form-wide .ck.ck-editor {
+    width: 100% !important;
+}
+
+.change-form-wide .ck.ck-content,
+.change-form-wide .ck-editor__editable_inline {
+    min-height: 760px;
+}
+
+.change-form-wide .field-excerpt,
+.change-form-wide .field-content {
+    display: block;
+    width: 100%;
+    grid-column: 1 / -1;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.change-form-wide .field-excerpt .flex-container,
+.change-form-wide .field-content .flex-container,
+.change-form-wide .field-excerpt > div,
+.change-form-wide .field-content > div {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+}
+
+.change-form-wide .field-excerpt label,
+.change-form-wide .field-content label {
+    display: block !important;
+    width: 100%;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+}
+
+.change-form-wide .field-excerpt,
+.change-form-wide .field-content {
+    margin-top: 1.25rem;
+    padding: 1.1rem 1.15rem 1.25rem;
+    border: 1px solid rgba(40, 52, 70, 0.12);
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.96) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.change-form-wide .field-excerpt label,
+.change-form-wide .field-content label {
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid rgba(40, 52, 70, 0.08);
+    letter-spacing: 0.01em;
+}
+
+.change-form-wide .field-excerpt .help,
+.change-form-wide .field-content .help,
+.change-form-wide .field-excerpt .helptext,
+.change-form-wide .field-content .helptext {
+    margin: 0.65rem 0 0.9rem;
+    color: #5b6574;
+}
+
+.change-form-wide .field-excerpt .ck.ck-content,
+.change-form-wide .field-excerpt .ck-editor__editable_inline {
+    min-height: 280px;
+}
+
+.change-form-wide .field-excerpt .ck-editor,
+.change-form-wide .field-content .ck-editor,
+.change-form-wide .field-excerpt .django-ckeditor-widget,
+.change-form-wide .field-content .django-ckeditor-widget {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.change-form-wide .field-content .ck.ck-content,
+.change-form-wide .field-content .ck-editor__editable_inline {
+    min-height: 880px;
+}
+
+.change-form-wide details,
+.change-form-wide .collapse {
+    margin-top: 0.5rem;
+}
+
+.change-form-wide .card-body .tab-pane .module:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 991.98px) {
+    .change-form-wide .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .change-form-wide .nav-tabs .nav-link {
+        padding: 0.65rem 0.85rem;
+    }
+
+    .change-form-wide.model-category .field-parent .related-widget-wrapper {
+        flex-wrap: wrap;
+    }
+
+    .change-form-wide.model-category .field-parent .related-widget-wrapper > :first-child {
+        min-width: 100%;
+        flex-basis: 100%;
+    }
+
+    .change-form-wide .field-related_categories .selector-available,
+    .change-form-wide .field-related_categories .selector-chosen {
+        width: 100%;
+    }
+
+    .change-form-wide .field-related_categories .selector ul.selector-chooser {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+    }
+
+    .change-form-wide .field-parent .related-widget-wrapper {
+        flex-wrap: wrap;
+    }
+
+    .change-form-wide .field-parent .related-widget-wrapper select,
+    .change-form-wide .field-parent .related-widget-wrapper .select2,
+    .change-form-wide .field-parent .related-widget-wrapper > select {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex-basis: 100%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .change-form-wide .changeform-toolbar-card .card-body {
+        flex-wrap: nowrap !important;
+    }
+
+    .change-form-wide .changeform-submit-top .d-flex {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: thin;
+    }
+}

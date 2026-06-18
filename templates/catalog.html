@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block title %}Товары и услуги по охране труда, пожарной безопасности и экологии — of.by{% endblock %}
+{% block meta_description %}Каталог товаров и услуг по охране труда, пожарной и промышленной безопасности, экологии в Минске и по Беларуси.{% endblock %}
+
+{% block canonical %}https://of.by/kupit-tovary-i-zakazat-uslugi-po-okhrane-truda-pozharnoj-bezopasnosti-ecologii-v-minske-i-po-belarusi.html{% endblock %}
+
+{% block og_title %}Товары и услуги по охране труда — of.by{% endblock %}
+{% block og_description %}Каталог товаров и услуг по охране труда, пожарной и промышленной безопасности, экологии в Минске и по Беларуси.{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-3 py-3">
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+      <li class="breadcrumb-item active">Товары и услуги</li>
+    </ol>
+  </nav>
+
+  <section class="catalog-hero mb-4">
+    <div class="row g-4 align-items-stretch">
+      <div class="col-12 col-xl-8">
+        <div class="catalog-hero__main">
+          <span class="catalog-hero__eyebrow">Каталог</span>
+          <h1 class="catalog-hero__title">Товары и услуги по охране труда, пожарной безопасности и экологии</h1>
+          <p class="catalog-hero__lead">
+            На этой странице собраны все основные направления каталога: услуги, товары и профильные
+            подкатегории. Сначала можно выбрать нужный раздел, а затем быстро перейти к конкретной позиции.
+          </p>
+
+          <div class="catalog-hero__stats">
+            <div class="catalog-stat">
+              <strong>{% if catalog_root_count is not None %}{{ catalog_root_count }}{% else %}{{ catalog_sections|length }}{% endif %}</strong>
+              <span>разделов</span>
+            </div>
+            <div class="catalog-stat">
+              <strong>{{ catalog_total_items }}</strong>
+              <span>позиций</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-4">
+        <aside class="catalog-hero__aside catalog-hero__aside--sticky">
+          <div class="catalog-hero__aside-title">Быстрый переход</div>
+          <div class="catalog-hero__anchors">
+            {% for section in catalog_sections %}
+              {% if section.category %}
+              <a href="#{{ section.slug }}" class="catalog-anchor">{{ section.title }}</a>
+              {% else %}
+              <a href="#{{ section.slug }}" class="catalog-anchor">{{ section.title }}</a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog-showcase mb-4">
+    <div class="section-header section-header--violet mb-3">
+      <span>Направления каталога</span>
+    </div>
+    <div class="catalog-showcase__grid">
+      {% for section in catalog_sections %}
+      <article class="catalog-showcase-card">
+        <div class="catalog-showcase-card__media">
+          {% if section.category %}
+          <img src="{{ section.image_url }}" alt="{{ section.title }}">
+          {% else %}
+          <img src="{{ section.image }}" alt="{{ section.title }}">
+          {% endif %}
+        </div>
+        <div class="catalog-showcase-card__body">
+          <h2 class="catalog-showcase-card__title">{{ section.title }}</h2>
+          <p class="catalog-showcase-card__text">
+            {% if section.category %}
+            {{ section.subtitle|default:"Описание раздела будет дополняться по мере редактирования."|truncatechars:130 }}
+            {% else %}
+            {{ section.subtitle|truncatechars:130 }}
+            {% endif %}
+          </p>
+          <div class="catalog-showcase-card__meta">
+            {% if section.category %}
+            <span>{{ section.total_item_count }} позиций</span>
+            {% if section.children %}<span>{{ section.children|length }} подразделов</span>{% endif %}
+            {% else %}
+            <span>{{ section.items|length }} позиций</span>
+            {% if section.groups %}<span>{{ section.groups|length }} групп</span>{% endif %}
+            {% endif %}
+          </div>
+          <a href="#{{ section.slug }}" class="catalog-showcase-card__link">Смотреть раздел</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% for section in catalog_sections %}
+  <section class="catalog-directory mb-4" id="{{ section.slug }}">
+    <div class="catalog-directory__frame">
+      <div class="row g-4">
+        <div class="col-12 col-xl-4">
+          <div class="catalog-directory__intro">
+            <div class="catalog-section__badge">Раздел каталога</div>
+            <h2 class="catalog-directory__title">{{ section.title }}</h2>
+            <p class="catalog-directory__subtitle">
+              {% if section.category %}
+              {{ section.subtitle|default:"Описание раздела будет дополняться по мере редактирования." }}
+              {% else %}
+              {{ section.subtitle }}
+              {% endif %}
+            </p>
+
+            <div class="catalog-directory__meta">
+              {% if section.category %}
+              <span>{{ section.total_item_count }} позиций</span>
+              {% if section.children %}<span>{{ section.children|length }} подразделов</span>{% endif %}
+              {% else %}
+              <span>{{ section.items|length }} позиций</span>
+              {% if section.groups %}<span>{{ section.groups|length }} групп</span>{% endif %}
+              {% endif %}
+            </div>
+
+            {% if section.category and section.children %}
+            <div class="catalog-directory__chips">
+              {% for child in section.children %}
+              <a href="{{ child.get_absolute_url }}" class="catalog-chip">{{ child.display_title }}</a>
+              {% endfor %}
+            </div>
+            {% elif section.groups %}
+            <div class="catalog-directory__chips">
+              {% for group in section.groups %}
+              <span class="catalog-chip">{{ group }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if section.category %}
+            <a href="{{ section.url }}" class="catalog-directory__cta">Открыть весь раздел</a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-8">
+          {% if section.category and section.child_cards %}
+          <div class="catalog-directory__list">
+            {% for child in section.child_cards %}
+            <a href="{{ child.url }}" class="catalog-directory-item">
+              <div class="catalog-directory-item__head">
+                <h3>{{ child.title }}</h3>
+                <span>{{ child.item_count }} поз.</span>
+              </div>
+              <p>{{ child.description|default:"Описание подкатегории будет доступно после редактирования."|truncatechars:150 }}</p>
+            </a>
+            {% endfor %}
+          </div>
+          {% elif section.category and section.items_preview %}
+          <div class="catalog-directory__list">
+            {% for item in section.items_preview %}
+            <a href="{{ item.get_absolute_url }}" class="catalog-directory-item">
+              <div class="catalog-directory-item__head">
+                <h3>{{ item.display_title }}</h3>
+                <span>позиция</span>
+              </div>
+              <p>{{ item.display_excerpt|default:"Описание позиции будет доступно на карточке товара."|truncatechars:150 }}</p>
+            </a>
+            {% endfor %}
+          </div>
+          {% elif not section.category %}
+          <div class="catalog-directory__list">
+            {% for item in section.items %}
+            <article class="catalog-directory-item">
+              <div class="catalog-directory-item__head">
+                <h3>{{ item.title }}</h3>
+              </div>
+              <p>{{ item.description|truncatechars:150 }}</p>
+            </article>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="catalog-list__empty">В этом разделе пока нет отображаемых позиций.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+</div>
+{% endblock %}

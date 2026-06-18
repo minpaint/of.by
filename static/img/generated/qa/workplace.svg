@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" fill="none">
+  <rect width="1200" height="720" fill="#EAF1FB"/>
+  <circle cx="300" cy="322" r="168" fill="#3B6FB0"/>
+  <!-- workstation: desk + monitor + lamp -->
+  <!-- desk surface -->
+  <rect x="206" y="372" width="200" height="18" rx="6" fill="#FFFFFF"/>
+  <!-- monitor -->
+  <rect x="232" y="288" width="116" height="74" rx="8" fill="#FFFFFF"/>
+  <rect x="246" y="300" width="88" height="50" rx="4" fill="#3B6FB0"/>
+  <!-- stand -->
+  <rect x="280" y="362" width="20" height="12" fill="#FFFFFF"/>
+  <!-- lamp -->
+  <path d="M196 372 L196 252 L232 240" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="236" cy="244" r="14" fill="#FFE08A"/>
+  <!-- chair seat hint -->
+  <rect x="360" y="360" width="20" height="60" rx="8" fill="#FFFFFF" opacity=".7"/>
+  <!-- title -->
+  <rect x="586" y="184" width="356" height="64" rx="18" fill="#3B6FB0"/>
+  <line x1="610" y1="216" x2="918" y2="216" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <!-- body -->
+  <rect x="586" y="286" width="392" height="24" rx="12" fill="#6F94C6"/>
+  <rect x="586" y="328" width="330" height="24" rx="12" fill="#6F94C6" opacity=".85"/>
+  <rect x="586" y="370" width="372" height="24" rx="12" fill="#6F94C6" opacity=".7"/>
+  <rect x="586" y="412" width="252" height="24" rx="12" fill="#6F94C6" opacity=".55"/>
+  <!-- cta -->
+  <rect x="586" y="478" width="196" height="66" rx="20" fill="#234E86"/>
+</svg>

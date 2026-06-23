@@ -60,6 +60,22 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{% static 'js/main.js' %}"></script>
+<script>
+(function(w,d,c){
+  var s=d.createElement('script'),h=d.getElementsByTagName('script')[0],e=d.documentElement;
+  if((' '+e.className+' ').indexOf(' ya-page_js_yes ')===-1){e.className+=' ya-page_js_yes';}
+  s.type='text/javascript';
+  s.async=true;
+  s.charset='utf-8';
+  s.src=(d.location.protocol==='https:'?'https:':'http:')+'//site.yandex.net/v2.0/js/all.js';
+  h.parentNode.insertBefore(s,h);
+  w[c]=w[c]||[];
+  w[c].push(function(){
+    if (w.Ya && Ya.Site && Ya.Site.Form) { Ya.Site.Form.init(); }
+    if (w.Ya && Ya.Site && Ya.Site.Results) { Ya.Site.Results.init(); }
+  });
+})(window,document,'yandex_site_callbacks');
+</script>
 {% block extra_js %}{% endblock %}
 </body>
 </html>

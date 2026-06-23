@@ -1,12 +1,14 @@
+import logging
 from collections import defaultdict
 from pathlib import Path
 from urllib.parse import urlencode
 
 from django.conf import settings
 from django.core.cache import cache
+from django.db import DatabaseError
 from django.http import Http404
 from django.core.paginator import Paginator
-from django.db.models import Count, Q
+from django.db.models import Count, F, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.core.mail import send_mail # New import
@@ -26,6 +28,24 @@ from .models import (
 )
 
 
+logger = logging.getLogger(__name__)
+
+
+def bump_views(item):
+    """Атомарно увеличить счётчик просмотров.
+
+    Использует F('views') (без гонок при параллельных запросах) и никогда не
+    роняет страницу: при кратковременной блокировке БД просто пропускает
+    инкремент вместо ответа 500.
+    """
+    try:
+        type(item).objects.filter(pk=item.pk).update(views=F('views') + 1)
+        item.views = (item.views or 0) + 1
+    except DatabaseError as exc:
+        logger.warning('Не удалось увеличить счётчик просмотров для %s#%s: %s',
+                       type(item).__name__, item.pk, exc)
+
+
 CONTENT_TYPE_LINKS = [
     ('event', 'События'),
     ('video', 'Видео'),
@@ -35,6 +55,19 @@ CATEGORY_CACHE_TTL = 300
 NAV_CACHE_TTL = 300
 CATALOG_CACHE_TTL = 300
 BLOCK_CACHE_TTL = 300
+
+
+def content_search_filter(query):
+    return (
+        Q(title__icontains=query)
+        | Q(excerpt__icontains=query)
+        | Q(content__icontains=query)
+        | Q(tags__icontains=query)
+        | Q(seo_title__icontains=query)
+        | Q(seo_description__icontains=query)
+        | Q(file_title__icontains=query)
+        | Q(category__title__icontains=query)
+    )
 
 
 def content_listing_queryset():
@@ -1358,8 +1391,7 @@ def catalog_item_detail(request, category_slug, slug):
             messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
 
 
-    CatalogItem.objects.filter(pk=item.pk).update(views=item.views + 1)
-    item.views += 1
+    bump_views(item)
 
     related_items = list(
         CatalogItem.objects.filter(is_active=True, category=item.category)
@@ -1443,8 +1475,7 @@ def content_detail_public(request, slug):
     all_categories = get_all_active_categories()
     categories = get_nav_categories()
 
-    ContentItem.objects.filter(pk=item.pk).update(views=item.views + 1)
-    item.views += 1
+    bump_views(item)
 
     related = (
         content_listing_queryset().filter(
@@ -1486,7 +1517,7 @@ def search(request):
     content_type_label = dict(CONTENT_TYPE_LINKS).get(content_type, content_type)
     results = []
 
-    qs = content_listing_queryset().filter(status='published')
+    qs = ContentItem.objects.select_related('category').filter(status='published').order_by('-published_date', '-id')
     if content_type == 'video':
         qs = qs.filter(content_type='video')
     elif content_type == 'event':
@@ -1495,7 +1526,7 @@ def search(request):
         content_type = ''
         content_type_label = ''
     if query:
-        qs = qs.filter(title__icontains=query)
+        qs = qs.filter(content_search_filter(query))
     if query or content_type:
         results = qs[:30]
 
@@ -1510,6 +1541,29 @@ def search(request):
         'content_type_links': CONTENT_TYPE_LINKS,
     }
     return render(request, 'search.html', context)
+
+
+def yandex_search_results(request):
+    all_categories = get_all_active_categories()
+    query = request.GET.get('text', '').strip() or request.GET.get('q', '').strip()
+    internal_results = []
+
+    if query:
+        internal_results = (
+            ContentItem.objects.select_related('category')
+            .filter(status='published')
+            .filter(content_search_filter(query))
+            .order_by('-published_date', '-id')[:6]
+        )
+
+    context = {
+        'categories': get_nav_categories(),
+        'top_nav_links': get_top_nav_links(all_categories),
+        'main_nav_links': get_main_nav_links(all_categories),
+        'query': query,
+        'internal_results': internal_results,
+    }
+    return render(request, 'yandex_search_results.html', context)
 
 
 def legacy_path(request, url_path):

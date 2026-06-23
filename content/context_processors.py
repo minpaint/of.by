@@ -1,7 +1,7 @@
 from django.core.cache import cache
 from django.templatetags.static import static
 
-from .models import Banner, CatalogCategory, CatalogItem, Category, ContentItem
+from .models import Banner, CatalogCategory, CatalogItem, Category, ContentItem, SiteCounter
 
 BANNER_CACHE_TTL = 300
 
@@ -256,8 +256,19 @@ def header_banner(request):
         )
         cache.set(sidebar_cache_key, sidebar_banner, BANNER_CACHE_TTL)
 
+    counters_cache_key = 'ctx:site_counters'
+    site_counters = cache.get(counters_cache_key)
+    if site_counters is None:
+        site_counters = list(
+            SiteCounter.objects
+            .filter(is_active=True)
+            .order_by('sort_order', 'title')
+        )
+        cache.set(counters_cache_key, site_counters, BANNER_CACHE_TTL)
+
     return {
         'header_banner': banner,
         'sidebar_banner': sidebar_banner,
         'current_branding': _get_current_branding(request),
+        'site_counters': site_counters,
     }

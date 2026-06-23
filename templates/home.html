@@ -33,6 +33,7 @@
             {% for item in slider_items %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
               <a href="{{ item.get_absolute_url }}">
+                <span class="main-slider-spotlight">В центре внимания</span>
                 {% if item.image %}
                 <img src="{{ item.image.url }}" class="slider-img" alt="{{ item.display_title }}">
                 {% else %}
@@ -164,7 +165,7 @@
     {% if videos and block.category.slug == 'health' or videos and block.category.slug == 'promyshlennaya-bezopasnost' %}
     <div class="col-12 d-flex">
       <section class="video-showcase video-showcase--grid video-showcase--dark w-100">
-        <div class="section-header section-header--indigo mb-3">
+        <div class="section-header section-header--indigo mb-0">
           <span>Популярное видео</span>
           <a href="{% url 'search' %}?type=video" class="section-header__link">Все видео</a>
         </div>
@@ -238,7 +239,7 @@
 
     <div class="col-12 col-xl-6 d-flex">
       <section class="home-news-section home-news-section--grid w-100">
-        <div class="section-header section-header--{{ block.category.color }} mb-2">
+        <div class="section-header section-header--{{ block.category.color }} mb-0">
           <span class="section-heading-with-icon">
             <img src="{{ block.category.icon_asset_url }}" alt="" class="section-heading-icon">
             {{ block.title|default:block.category.display_title }}

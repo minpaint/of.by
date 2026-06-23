@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load media_filters %}
 
 {% block title %}{{ item.seo_title|default:item.display_title }} — of.by{% endblock %}
 {% block meta_description %}{{ item.seo_description|default:item.display_excerpt }}{% endblock %}
@@ -19,13 +20,13 @@
 {% block extra_head %}
 <style>
   .sidebar-sticky-banner {
-    position: sticky;
-    top: 16px;
+    position: static;
+    top: auto;
     margin-bottom: 16px;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    z-index: 1;
+    z-index: 0;
   }
   .sidebar-sticky-banner img {
     display: block;
@@ -33,9 +34,11 @@
     height: auto;
     border-radius: 10px;
   }
-  @media (max-width: 991px) {
-    /* На планшете/мобильном сайдбар стекается — sticky не нужен */
-    .sidebar-sticky-banner { position: static; top: auto; }
+  @media (min-width: 1200px) and (min-height: 760px) {
+    .sidebar-sticky-banner {
+      position: sticky;
+      top: 64px;
+    }
   }
 </style>
 {% endblock %}
@@ -83,12 +86,18 @@
 
         {% if item.video_url %}
         <div class="ratio ratio-16x9 mb-3">
-          <iframe src="{{ item.get_youtube_embed_url }}" allowfullscreen title="{{ item.display_title }}"></iframe>
+          <iframe
+            src="{{ item.get_youtube_embed_url }}{% if 'youtube' in item.get_youtube_embed_url %}?rel=0&origin={{ request.scheme }}://{{ request.get_host|urlencode }}{% endif %}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            frameborder="0"
+            allowfullscreen
+            title="{{ item.display_title }}"></iframe>
         </div>
         {% endif %}
 
         <div class="article-content">
-          {{ item.content|safe }}
+          {{ item.content|normalize_embeds:request }}
         </div>
 
         {% if item.file %}

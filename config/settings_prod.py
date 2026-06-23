@@ -25,6 +25,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': Path(os.environ.get('OF_BY_DB_PATH', '/home/django/webapps/ofby/db.sqlite3')),
+        # SQLite под несколькими воркерами gunicorn: WAL позволяет читателям и
+        # писателю работать одновременно, busy timeout заставляет короткую
+        # блокировку подождать вместо ошибки, а IMMEDIATE-транзакции берут
+        # запись-лок сразу и не упираются в «database is locked».
+        'OPTIONS': {
+            'timeout': 20,
+            'transaction_mode': 'IMMEDIATE',
+            'init_command': 'PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;',
+        },
     }
 }
 
@@ -60,3 +69,8 @@ CACHES = {
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
+
+# Дефолт Django 'same-origin' не передаёт реферер на сторонние домены,
+# из-за чего YouTube-эмбеды падали с «Ошибка 153». 'strict-origin-when-cross-origin'
+# передаёт только origin (https://ohranatruda.of.by) — достаточно для плеера, без утечки пути.
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'

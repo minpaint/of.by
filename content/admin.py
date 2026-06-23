@@ -16,6 +16,7 @@ from .models import (
     LeadSettings,
     LegacyRedirect,
     SectionBranding,
+    SiteCounter,
     SmtpSettings,
     build_unique_slug,
 )
@@ -655,6 +656,42 @@ class ContentFeedBlockAdmin(WideTitleSlugAdminMixin, admin.ModelAdmin):
 class LegacyRedirectAdmin(admin.ModelAdmin):
     list_display = ('old_path', 'new_path')
     search_fields = ('old_path', 'new_path')
+
+
+@admin.register(SiteCounter)
+class SiteCounterAdmin(admin.ModelAdmin):
+    list_display = ('title', 'is_active', 'sort_order', 'updated_at')
+    list_editable = ('is_active', 'sort_order')
+    search_fields = ('title', 'informer_code', 'counter_code')
+    readonly_fields = ('updated_at',)
+
+    fieldsets = (
+        ('Основное', {
+            'fields': (
+                'title',
+                'is_active',
+                'sort_order',
+            ),
+        }),
+        ('Коды', {
+            'fields': (
+                'informer_code',
+                'counter_code',
+            ),
+        }),
+        ('Служебное', {
+            'fields': ('updated_at',),
+        }),
+    )
+
+    def get_form(self, request, obj=None, change=False, **kwargs):
+        form = super().get_form(request, obj, change=change, **kwargs)
+        for field_name in ('informer_code', 'counter_code'):
+            if field_name in form.base_fields:
+                form.base_fields[field_name].widget = forms.Textarea(
+                    attrs={'style': 'width: 100%; min-height: 180px; font-family: monospace;', 'rows': 8}
+                )
+        return form
 
 
 @admin.register(LeadSettings)

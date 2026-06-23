@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('search', views.search, name='search_noslash'),
     path('search/', views.search, name='search'),
+    path('rezultaty-poiska.html', views.yandex_search_results, name='yandex_search_results'),
     path('catalog/<slug:category_slug>/<slug:slug>.html', views.catalog_item_detail, name='catalog_item_detail'),
     path('catalog/<slug:slug>/', views.catalog_category, name='catalog_category'),
     path(

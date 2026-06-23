@@ -41,6 +41,18 @@
     </div>
     <div class="footer-bottom">
       <span>&copy; {% now "Y" %} of.by</span>
+      {% if site_counters %}
+      <div class="footer-counters">
+        {% for counter in site_counters %}
+          {% if counter.informer_code %}
+          <div class="footer-counter-informer">{{ counter.informer_code|safe }}</div>
+          {% endif %}
+          {% if counter.counter_code %}
+          {{ counter.counter_code|safe }}
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
   </div>
 </footer>

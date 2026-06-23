@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Результаты поиска — of.by{% endblock %}
+{% block meta_robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-3 py-3">
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+      <li class="breadcrumb-item active">Результаты поиска</li>
+    </ol>
+  </nav>
+
+  <section class="search-results-page">
+    <div class="search-results-page__head">
+      <div>
+        <span class="search-results-page__eyebrow">Поиск по сайту</span>
+        <h1>Результаты поиска</h1>
+      </div>
+      <a href="{% url 'search' %}{% if query %}?q={{ query|urlencode }}{% endif %}" class="search-results-page__fallback">Внутренний поиск</a>
+    </div>
+
+    <div class="search-results-page__note">
+      Введите запрос в поле поиска. Основная выдача формируется Яндексом, а справа показаны совпадения из базы сайта.
+    </div>
+
+    <div class="search-results-page__body">
+      <div class="yandex-search-results">
+        <div class="yandex-search-results__loading">
+          <i class="bi bi-search"></i>
+          <span>Загружаем результаты поиска...</span>
+        </div>
+        <noscript>
+          <div class="empty-block">
+            <i class="bi bi-exclamation-circle"></i>
+            <p>Для отображения результатов Яндекса нужен включенный JavaScript.</p>
+          </div>
+        </noscript>
+        <div id="ya-site-results" data-bem="{&quot;tld&quot;:&quot;ru&quot;,&quot;language&quot;:&quot;ru&quot;,&quot;encoding&quot;:&quot;&quot;,&quot;htmlcss&quot;:&quot;1.x&quot;,&quot;updatehash&quot;:true}"></div>
+      </div>
+
+      <aside class="internal-search-results">
+        <div class="internal-search-results__head">
+          <span>На сайте</span>
+          {% if query %}
+          <a href="{% url 'search' %}?q={{ query|urlencode }}">Все</a>
+          {% endif %}
+        </div>
+        {% if query %}
+          {% if internal_results %}
+          <div class="internal-search-results__list">
+            {% for item in internal_results %}
+            <a href="{{ item.get_absolute_url }}" class="internal-search-result">
+              {% if item.category %}
+              <span class="internal-search-result__category">{{ item.category.display_title }}</span>
+              {% endif %}
+              <span class="internal-search-result__title">{{ item.display_title|truncatechars:74 }}</span>
+              {% if item.display_excerpt %}
+              <span class="internal-search-result__excerpt">{{ item.display_excerpt|truncatechars:96 }}</span>
+              {% endif %}
+            </a>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="internal-search-results__empty">Во внутреннем поиске совпадений нет.</div>
+          {% endif %}
+        {% else %}
+        <div class="internal-search-results__empty">Введите запрос, чтобы увидеть материалы из базы сайта.</div>
+        {% endif %}
+      </aside>
+    </div>
+  </section>
+</div>
+{% endblock %}

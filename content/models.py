@@ -448,10 +448,12 @@ class ContentItem(models.Model):
             return ''
         if 'youtu.be/' in url:
             vid = url.split('youtu.be/')[-1].split('?')[0]
-            return f'https://www.youtube.com/embed/{vid}'
+            return f'https://www.youtube-nocookie.com/embed/{vid}'
         if 'watch?v=' in url:
             vid = url.split('watch?v=')[-1].split('&')[0]
-            return f'https://www.youtube.com/embed/{vid}'
+            return f'https://www.youtube-nocookie.com/embed/{vid}'
+        if 'youtube.com/embed/' in url:
+            return url.replace('https://www.youtube.com/embed/', 'https://www.youtube-nocookie.com/embed/')
         return url
 
     def get_youtube_thumbnail(self):
@@ -891,6 +893,23 @@ class LegacyRedirect(models.Model):
 
     def __str__(self):
         return f'{self.old_path} -> {self.new_path}'
+
+
+class SiteCounter(models.Model):
+    title = models.CharField('Название', max_length=120, default='Яндекс.Метрика')
+    informer_code = models.TextField('Код информера', blank=True)
+    counter_code = models.TextField('Код счетчика', blank=True)
+    sort_order = models.PositiveIntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Активен', default=True)
+    updated_at = models.DateTimeField('Изменено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Счетчик сайта'
+        verbose_name_plural = 'Счетчики сайта'
+        ordering = ['sort_order', 'title']
+
+    def __str__(self):
+        return self.title
 
 
 class LeadSettings(models.Model):

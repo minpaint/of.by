@@ -60,6 +60,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': Path(os.environ.get('OF_BY_DB_PATH', r'C:\projects\of_by\db.sqlite3')),
+        # WAL + busy timeout + IMMEDIATE-транзакции: устойчивость к параллельным
+        # запросам (инкремент просмотров пишет в БД на каждом хите страницы).
+        'OPTIONS': {
+            'timeout': 20,
+            'transaction_mode': 'IMMEDIATE',
+            'init_command': 'PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;',
+        },
     }
 }
 
@@ -107,12 +114,13 @@ JAZZMIN_SETTINGS = {
     'site_brand': 'of.by',
     'welcome_sign': 'Управление структурой сайта и материалами',
     'copyright': 'of.by',
-    'search_model': ['content.Category', 'content.ContentItem', 'content.Banner', 'content.LeadSettings', 'content.SmtpSettings'],
+    'search_model': ['content.Category', 'content.ContentItem', 'content.Banner', 'content.SiteCounter', 'content.LeadSettings', 'content.SmtpSettings'],
     'topmenu_links': [
         {'name': 'Открыть сайт', 'url': '/', 'new_window': True},
         {'model': 'content.Category'},
         {'model': 'content.ContentItem'},
         {'model': 'content.Banner'},
+        {'model': 'content.SiteCounter'},
         {'model': 'content.LeadSettings'},
         {'model': 'content.SmtpSettings'},
     ],
@@ -124,6 +132,7 @@ JAZZMIN_SETTINGS = {
         'content.ContentItem': 'fas fa-newspaper',
         'content.ContentFeedBlock': 'fas fa-layer-group',
         'content.Banner': 'fas fa-image',
+        'content.SiteCounter': 'fas fa-chart-line',
         'content.LeadSettings': 'fas fa-envelope-open-text',
         'content.LegacyRedirect': 'fas fa-route',
         'content.SmtpSettings': 'fas fa-cogs',
@@ -134,6 +143,7 @@ JAZZMIN_SETTINGS = {
         'content.ContentItem',
         'content.ContentFeedBlock',
         'content.Banner',
+        'content.SiteCounter',
         'content.LeadSettings',
         'content.SmtpSettings',
         'content.LegacyRedirect',
